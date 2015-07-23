@@ -229,8 +229,7 @@ public abstract class OdeSolver {
 		
 	}
 	
-	
-	
+		
 	/**
 	 * Abstract Constructor: String Symbols  (Without Exact Solution)
 	 * 
@@ -251,7 +250,6 @@ public abstract class OdeSolver {
 	}
 	
 
-	
 	/**
 	 * Abstract Constructor: Default t0 = 0, step = 0.1, tmax = 1 (With Exact Solution)
 	 * 
@@ -268,8 +266,7 @@ public abstract class OdeSolver {
 		this (exact, func, 0, y0, 0.1, 1, t, y);
 		
 	}
-	
-	
+		
 	
 	/**
 	 * Abstract Constructor: String Symbols, Default t0 = 0, step = 0.1, tmax = 1 (Without Exact Solution)
@@ -317,10 +314,6 @@ public abstract class OdeSolver {
 	
 	}
 
-
-
-	
-	
 	
 	/**
 	 * @return the exprExact
@@ -338,10 +331,6 @@ public abstract class OdeSolver {
 		
 	}
 	
-	
-	
-
-
 
 	/**
 	 * @return the t0
@@ -352,10 +341,6 @@ public abstract class OdeSolver {
 		
 	}
 	
-	
-	
-
-
 
 	/**
 	 * @return the y0
@@ -366,11 +351,6 @@ public abstract class OdeSolver {
 		
 	}
 	
-	
-	
-	
-
-
 
 	/**
 	 * @return the step
@@ -382,10 +362,6 @@ public abstract class OdeSolver {
 	}
 	
 	
-	
-
-
-
 	/**
 	 * @return the tmax
 	 */
@@ -396,10 +372,6 @@ public abstract class OdeSolver {
 	}
 	
 	
-	
-
-
-
 	/**
 	 * @return the stepNumber
 	 */
@@ -409,10 +381,6 @@ public abstract class OdeSolver {
 		
 	}
 	
-	
-	
-
-
 
 	/**
 	 * @return the timeInterval
@@ -423,10 +391,6 @@ public abstract class OdeSolver {
 	}
 	
 	
-	
-
-
-
 	/**
 	 * @return the yk
 	 */
@@ -436,10 +400,6 @@ public abstract class OdeSolver {
 		
 	}
 	
-	
-	
-
-
 
 	/**
 	 * @return the exactk
@@ -457,10 +417,6 @@ public abstract class OdeSolver {
 	}
 	
 	
-	
-
-
-
 	/**
 	 * @return the t
 	 */
@@ -470,10 +426,6 @@ public abstract class OdeSolver {
 		
 	}
 	
-	
-	
-
-
 
 	/**
 	 * @return the y
@@ -484,10 +436,6 @@ public abstract class OdeSolver {
 	
 	}
 
-
-
-	
-	
 	
 	/**
 	 * @return the errors
@@ -505,10 +453,6 @@ public abstract class OdeSolver {
 	
 	}
 	
-	
-	
-
-
 
 	/**
 	 * @return the errorsPerc
@@ -526,11 +470,6 @@ public abstract class OdeSolver {
 	
 	}
 	
-	
-	
-	
-
-
 
 	/**
 	 * @return the errorAvg
@@ -549,10 +488,6 @@ public abstract class OdeSolver {
 	}
 	
 	
-	
-	
-
-
 
 	/**
 	 * @return the errorPercAvg
@@ -571,10 +506,6 @@ public abstract class OdeSolver {
 	}
 	
 	
-	
-
-
-
 	/**
 	 * @return the errorVar
 	 * @throws WrongCalculationException 
@@ -591,10 +522,6 @@ public abstract class OdeSolver {
 	
 	}
 	
-	
-	
-
-
 
 	/**
 	 * @return the errorPercVar
@@ -612,10 +539,6 @@ public abstract class OdeSolver {
 	
 	}
 	
-	
-	
-
-
 
 	/**
 	 * @return the errorSd
@@ -632,11 +555,6 @@ public abstract class OdeSolver {
 		return this.errorSd;
 	
 	}
-	
-	
-	
-	
-
 
 
 	/**
@@ -656,10 +574,6 @@ public abstract class OdeSolver {
 	}
 	
 	
-	
-
-
-
 	/**
 	 * @return True If Already Solved
 	 */
@@ -670,10 +584,6 @@ public abstract class OdeSolver {
 	}
 	
 	
-	
-
-
-
 	/**
 	 * @return TRUE If Errors Have Already Been Computed
 	 */
@@ -748,8 +658,7 @@ public abstract class OdeSolver {
 		this.errorComp(parser.getMathExpr());		
 		
 	}
-	
-	
+		
 	
 	/**
 	 * Computes Errors And Errors Percentage (MathExpr Input)
@@ -819,6 +728,9 @@ public abstract class OdeSolver {
 		// Errors Percentage Standard Deviation
 		this.errorPercSd = MathNum.Stat.sd(this.errorPercVar);
 		
+		
+		// Errors Flag Set To True
+		this.err = true;
 		
 	}
 	
