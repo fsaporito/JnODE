@@ -1,25 +1,28 @@
 package odeSolver;
 
-import java.util.Hashtable;
+
 
 import Exceptions.WrongCalculationException;
+import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 import MathExpr.MathExpr;
 import MathToken.MathTokenSymbol;
-import Parser.MathEvaluator;
+import Parser.MathParser;
 
 
 /**
- * Implementation Of The Esplicit Euler Methods
+ * Implementation Of The Implicit Euler Methods
  * 
- * y[k+1] = y[k] + h*f(t[k], y[k])
+ * y[k+1] = y[k] + h*f(t[k], y[k+1])
+ * 
+ * y[k+1] - y[k] - h*f(t[k], y[k+1]) = 0
  *
  */
-public class EulerEsplicit extends OdeSolver {
+public class EulerImplicit extends OdeSolver {
 
 	
 	/**
-	 * Euler Esplicit Constructor: General Case (With Exact Solution)
+	 * Euler Implicit Constructor: General Case (With Exact Solution)
 	 * 
 	 * @param exact Exact Solution
 	 * @param func f(t, y(t))
@@ -32,19 +35,19 @@ public class EulerEsplicit extends OdeSolver {
 	 * @throws WrongInputException Null Input
 	 * @throws WrongCalculationException 
 	 */
-	public EulerEsplicit (MathExpr exact, MathExpr func, double t0, double y0, double step, double tmax, MathTokenSymbol t, MathTokenSymbol y) throws WrongInputException, WrongCalculationException {
+	public EulerImplicit (MathExpr exact, MathExpr func, double t0, double y0, double step, double tmax, MathTokenSymbol t, MathTokenSymbol y) throws WrongInputException, WrongCalculationException {
 		
 		super(exact, func, t0, y0, step, tmax, t, y);
 		
-		this.methodName = "Euler Esplicit";
+		this.methodName = "Euler Implicit";
 		this.methodOrder = 1;
-		this.methodType = "explicit";
+		this.methodType = "implicit";
 		
 	}
 
 	
 	/**
-	 * Euler Esplicit Constructor: General Case (Without Exact Solution)
+	 * Euler Implicit Constructor: General Case (Without Exact Solution)
 	 * 
 	 * @param func f(t, y(t))
 	 * @param t0 Initial Time
@@ -56,19 +59,19 @@ public class EulerEsplicit extends OdeSolver {
 	 * @throws WrongInputException Null Input
 	 * @throws WrongCalculationException 
 	 */
-	public EulerEsplicit (MathExpr func, double t0, double y0, double step, double tmax, MathTokenSymbol t, MathTokenSymbol y) throws WrongInputException, WrongCalculationException {
+	public EulerImplicit (MathExpr func, double t0, double y0, double step, double tmax, MathTokenSymbol t, MathTokenSymbol y) throws WrongInputException, WrongCalculationException {
 		
-		super(func, t0, y0, step, tmax, t, y);
+		super (func, t0, y0, step, tmax, t, y);
 		
-		this.methodName = "Euler Esplicit";
+		this.methodName = "Euler Implicit";
 		this.methodOrder = 1;
-		this.methodType = "explicit";
+		this.methodType = "implicit";
 		
 	}
 
 	
 	/**
-	 * Euler Esplicit Constructor: String Symbols  (With Exact Solution)
+	 * Euler Implicit Constructor: String Symbols  (With Exact Solution)
 	 * 
 	 * @param exact Exact Solution
 	 * @param func f(t, y(t))
@@ -81,19 +84,19 @@ public class EulerEsplicit extends OdeSolver {
 	 * @throws WrongInputException Null Input
 	 * @throws WrongCalculationException 
 	 */
-	public EulerEsplicit(MathExpr exact, MathExpr func, double t0, double y0, double step, double tmax, String t, String y) throws WrongInputException, WrongCalculationException {
+	public EulerImplicit(MathExpr exact, MathExpr func, double t0, double y0, double step, double tmax, String t, String y) throws WrongInputException, WrongCalculationException {
 		
 		super (exact, func, t0, y0, step, tmax, t, y);
 		
-		this.methodName = "Euler Esplicit";
+		this.methodName = "Euler Implicit";
 		this.methodOrder = 1;
-		this.methodType = "explicit";
+		this.methodType = "implicit";
 		
 	}
 
 	
 	/**
-	 * Euler Esplicit Constructor: String Symbols  (Without Exact Solution)
+	 * Euler Implicit Constructor: String Symbols  (Without Exact Solution)
 	 * 
 	 * @param func f(t, y(t))
 	 * @param t0 Initial Time
@@ -105,19 +108,19 @@ public class EulerEsplicit extends OdeSolver {
 	 * @throws WrongInputException Null Input
 	 * @throws WrongCalculationException 
 	 */
-	public EulerEsplicit(MathExpr func, double t0, double y0, double step, double tmax, String t, String y) throws WrongInputException, WrongCalculationException {
+	public EulerImplicit(MathExpr func, double t0, double y0, double step, double tmax, String t, String y) throws WrongInputException, WrongCalculationException {
 		
-		super(func, t0, y0, step, tmax, t, y);
+		super (func, t0, y0, step, tmax, t, y);
 		
-		this.methodName = "Euler Esplicit";
+		this.methodName = "Euler Implicit";
 		this.methodOrder = 1;
-		this.methodType = "explicit";
+		this.methodType = "implicit";
 		
 	}
 
 	
 	/**
-	 * Euler Esplicit Constructor: Default t0 = 0, step = 0.1, tmax = 1 (With Exact Solution)
+	 * Euler Implicit Constructor: Default t0 = 0, step = 0.1, tmax = 1 (With Exact Solution)
 	 * 
 	 * @param exact Exact Solution
 	 * @param func f(t, y(t))
@@ -127,19 +130,19 @@ public class EulerEsplicit extends OdeSolver {
 	 * @throws WrongInputException Null Input
 	 * @throws WrongCalculationException 
 	 */
-	public EulerEsplicit(MathExpr exact, MathExpr func, double y0, MathTokenSymbol t, MathTokenSymbol y) throws WrongInputException, WrongCalculationException {
+	public EulerImplicit(MathExpr exact, MathExpr func, double y0, MathTokenSymbol t, MathTokenSymbol y) throws WrongInputException, WrongCalculationException {
 		
 		super(exact, func, y0, t, y);
 		
-		this.methodName = "Euler Esplicit";
+		this.methodName = "Euler Implicit";
 		this.methodOrder = 1;
-		this.methodType = "explicit";
+		this.methodType = "implicit";
 		
 	}
 
 	
 	/**
-	 * Euler Esplicit Constructor: String Symbols, Default t0 = 0, step = 0.1, tmax = 1 (Without Exact Solution)
+	 * Euler Implicit Constructor: String Symbols, Default t0 = 0, step = 0.1, tmax = 1 (Without Exact Solution)
 	 * 
 	 * @param exact Exact Solution
 	 * @param func f(t, y(t))
@@ -149,19 +152,19 @@ public class EulerEsplicit extends OdeSolver {
 	 * @throws WrongInputException Null Input
 	 * @throws WrongCalculationException 
 	 */
-	public EulerEsplicit(MathExpr exact, MathExpr func, double y0, String t, String y) throws WrongInputException, WrongCalculationException {
+	public EulerImplicit(MathExpr exact, MathExpr func, double y0, String t, String y) throws WrongInputException, WrongCalculationException {
 		
 		super(exact, func, y0, t, y);
 		
-		this.methodName = "Euler Esplicit";
+		this.methodName = "Euler Implicit";
 		this.methodOrder = 1;
-		this.methodType = "explicit";
+		this.methodType = "implicit";
 		
 	}
 
 	
 	/**
-	 * Euler Esplicit Constructor: String Symbols, Default t0 = 0, step = 0.1, tmax = 1 (Without Exact Solution)
+	 * Euler Implicit Constructor: String Symbols, Default t0 = 0, step = 0.1, tmax = 1 (Without Exact Solution)
 	 * 
 	 * @param func f(t, y(t))
 	 * @param y0 Initial Value y(t0) = y0
@@ -170,54 +173,39 @@ public class EulerEsplicit extends OdeSolver {
 	 * @throws WrongInputException Null Input
 	 * @throws WrongCalculationException 
 	 */
-	public EulerEsplicit(MathExpr func, double y0, String t, String y) throws WrongInputException, WrongCalculationException {
+	public EulerImplicit(MathExpr func, double y0, String t, String y) throws WrongInputException, WrongCalculationException {
 		
 		super(func, y0, t, y);
 		
-		this.methodName = "Euler Esplicit";
+		this.methodName = "Euler Implicit";
 		this.methodOrder = 1;
-		this.methodType = "explicit";
+		this.methodType = "implicit";
 		
 	}
 	
 	
-
-	/**
-	 * @return The Numerical Method Name
-	 */
-	@Override
-	public String getMethodName() {
 		
-		return "Euler Esplicit";
-		
-	}
-
-	
-	
 	/** 
-	 * Solves The Differential Equation With Euler Esplicit Method
+	 * Solves The Differential Equation With Euler Implicit Method
 	 * 
 	 * @return The yk Array With The Approximated Solutions
 	 */
 	@Override
 	protected double[] solveODE() {
 		
-		Hashtable<MathTokenSymbol, Double> hashTab = new Hashtable<MathTokenSymbol, Double>();
-		MathEvaluator mathEval;
-		
 		for (int i = 1; i < this.stepNumber; i++) {
 		
-			hashTab.clear();
-			hashTab.put(this.t, this.timeInterval[i-1]);
-			hashTab.put(this.y, this.yk[i-1]);
-			
 			try {
 				
-				mathEval = new MathEvaluator (this.func, hashTab);
+				String strFun = this.y.getValue() + " - " + this.yk[i-1] + " - (" + this.step + " * (" + this.func.deSym(this.func, this.t, this.timeInterval[i-1]) + "))"; 
 				
-				this.yk[i] = yk[i-1] + this.step*mathEval.getResult().getOperandDouble();
+				MathParser parser = new MathParser (strFun, "infix");
+				
+				MathExpr exprFunc = parser.getMathExpr();
+				
+				this.yk[i] = MathNum.Roots.newton(exprFunc, this.y, this.yk[i-1], tol);				
 			
-			} catch (WrongCalculationException | WrongInputException e) {
+			} catch (WrongCalculationException | WrongInputException | WrongExpressionException e) {
 				
 				e.printStackTrace();
 			
@@ -229,4 +217,6 @@ public class EulerEsplicit extends OdeSolver {
 		
 	}
 
+
 }
+

@@ -21,6 +21,18 @@ import Parser.MathParser;
 public abstract class OdeSolver {
 
 	
+	/** Method Name */
+	public String methodName;
+	
+	/** Method Type */
+	public String methodType;
+	
+	/** Method Order */
+	public int methodOrder;
+	
+	/** Precision */
+	protected static double tol = 0.0000001;
+	
 	/** Right hand equation's member */
 	protected MathExpr func;
 	
@@ -139,6 +151,9 @@ public abstract class OdeSolver {
 		
 		
 		// Fields Initialization
+		this.methodName = "OdeSolver";
+		this.methodType = "Explicit Or Implicit";
+		this.methodOrder = 0;
 		this.func = func;		
 		this.t0 = t0;		
 		this.y0 = y0;		
@@ -304,7 +319,44 @@ public abstract class OdeSolver {
 	
 	
 	
+	/**
+	 * @return the methodName
+	 */
+	public String getMethodName () {
+		
+		return this.methodName;
+		
+	}
 	
+	
+	/**
+	 * @return the methodType
+	 */
+	public String getMethodType() {
+		
+		return this.methodType;
+		
+	}
+
+
+	/**
+	 * @return the methodOrder
+	 */
+	public int getMethodOrder() {
+		
+		return this.methodOrder;
+	
+	}
+
+
+	/**
+	 * @return the tol
+	 */
+	public static double getTol() {
+		return tol;
+	}
+
+
 	/**
 	 * @return the function
 	 */
@@ -594,12 +646,6 @@ public abstract class OdeSolver {
 	}
 	
 	
-	/**
-	 * @return The Numerical Method Name
-	 */
-	public abstract String getMethodName();
-
-
 
 	/** 
 	 * Returns The Solution

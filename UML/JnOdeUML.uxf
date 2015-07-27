@@ -1,0 +1,917 @@
+<?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="12.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1930</x>
+      <y>1090</y>
+      <w>500</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>odeSolver::Heun
+
+--
+
+# methodName = "Heun"
+# methodType = "esplicit"
+# methodOrder = 2
+
+# r = 2
+
+--
+
++ Heun (MathExpr, MathExpr, double, double, double, double, 
+                         MathTokenSymbol, MathTokenSymbol)
++ Heun (MathExpr, double, double, double, double, 
+                         MathTokenSymbol, MathTokenSymbol)
+
+# butcherTableInitialise (): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>740</x>
+      <y>410</y>
+      <w>530</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>MathNum::Roots
+
+--
+_+bisection (MathExpr, MathTokenSymbol, double, double, double):double_
+_+secants (MathExpr, MathTokenSymbol, double, double):double_
+_+muller (MathExpr, MathTokenSymbol, double, double):double_
+_+broyden (MathExpr, MathTokenSymbol, double, double):double_
+_+newton (MathExpr, MathTokenSymbol, double, double):double_
+_+brent (MathExpr, MathTokenSymbol, double, double, double):double_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>100</x>
+      <y>0</y>
+      <w>190</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>MathNum::Stat
+
+--
+
+_+ avg (double[]): double_
+_+ var (double[], double): double_
+_+ var (double[]): double_
+_+ sd (double[]): double_
+_+ sd (double): double_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>70</x>
+      <y>220</y>
+      <w>490</w>
+      <h>590</h>
+    </coordinates>
+    <panel_attributes>/odeSolver::OdeSolver/
+
+--
+
+# methodName: String
+# methodType: String
+# methodOrder: int
+
+# tol: double
+# func: MathExpr
+# exactExpr: MathExpr
+# t0: double
+# y0: double
+# step: double
+# tmax: double
+# stepNumber: int
+# timeInterval: double[]
+# yk: double[]
+# t: MathTokenSymbol
+# y: MathTokenSymbol
+# errors: double[]
+# errorsPerc: double[]
+# errorAvg: double
+# errorPercAvg: double
+# errorVar: double
+# errorPercVar: double		
+# errorSd: double
+# errorPercSd: double
+# solved: boolean	
+# err: boolean
+
+--
+
++ OdeSolver (MathExpr, MathExpr, double, double, double, double, 
+                     MathTokenSymbol, MathTokenSymbol)
++ OdeSolver (MathExpr, double, double, double, double, 
+                      MathTokenSymbol, MathTokenSymbol)
+
+
++ errorComp (MathExpr): void
++ errorComp (String): void
++ solve (): double[]
+/# solveODE (): double[]/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>640</x>
+      <y>1140</y>
+      <w>500</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>odeSolver::EulerEsplicit
+
+--
+
+# methodName = "EulerEsplicit"
+# methodType = "esplicit"
+# methodOrder = 1
+
+# r = 1
+# s = 1
+
+--
+
++ EulerEsplicit (MathExpr, MathExpr, double, double, double, double, 
+                          MathTokenSymbol, MathTokenSymbol)
++ EulerEsplicit (MathExpr, double, double, double, double, 
+                          MathTokenSymbol, MathTokenSymbol)
+
+
+# solveODE (): double[]</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>20</x>
+      <y>1810</y>
+      <w>500</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>odeSolver::AdamsMoulton
+
+--
+
+# methodName = "AdamsMoulton"
+# methodType = "implicit"
+# methodOrder:int (da 1 a 5)
+
+# s:int (da 0 a 4)
+
+--
+
++ AdamsMoulton (MathExpr, MathExpr, double, double, double, double, 
+                          MathTokenSymbol, MathTokenSymbol, int)
++ AdamsMoulton (MathExpr, double, double, double, double, 
+                          MathTokenSymbol, MathTokenSymbol, int)
+
+# solveODE (): double[] </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>30</x>
+      <y>880</y>
+      <w>500</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>/odeSolver::LinearMultistep/
+--
+
+# r = 0
+# s: int
+
+--
+
++ LinearMultistep (MathExpr, MathExpr, double, double, double, double, 
+             MathTokenSymbol, MathTokenSymbol, int, int)
++ LinearMultistep (MathExpr, double, double, double, double, 
+             MathTokenSymbol, MathTokenSymbol, int, int)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>730</x>
+      <y>650</y>
+      <w>500</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>/odeSolver::GLM/
+
+--
+
+# r: int
+# s: int
+
+--
+
++ GLM (MathExpr, MathExpr, double, double, double, double, 
+             MathTokenSymbol, MathTokenSymbol, int, int)
++ GLM (MathExpr, double, double, double, double, 
+             MathTokenSymbol, MathTokenSymbol, int, int)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1610</x>
+      <y>580</y>
+      <w>500</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>/odeSolver::Range-Kutta/
+
+--
+
+# r: int
+# s = 0: int
+# butcherTable: double[][]
+
+--
+
++ Range-Kutta (MathExpr, MathExpr, double, double, double, double, 
+                         MathTokenSymbol, MathTokenSymbol, int)
++ Range-Kutta (MathExpr, double, double, double, double, 
+                         MathTokenSymbol, MathTokenSymbol, int)
+/# butcherTableInitialise (): void/
+
+# solveODE (): double[]</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1920</x>
+      <y>1870</y>
+      <w>500</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>odeSolver::Kutta3
+
+--
+
+# methodName = "Kutta3"
+# methodType = "esplicit"
+# methodOrder = 3
+
+# r = 3
+
+--
+
++ Kutta3 (MathExpr, MathExpr, double, double, double, double, 
+                 MathTokenSymbol, MathTokenSymbol, int)
++ Kutta3 (MathExpr, double, double, double, double, 
+                 MathTokenSymbol, MathTokenSymbol, int)
+
+
+# butcherTableInitialise (): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1930</x>
+      <y>850</y>
+      <w>500</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>odeSolver::MidpointEsplicit
+
+--
+
+# methodName = "MidpointEsplicit"
+# methodType = "esplicit"
+# methodOrder = 2
+
+# r = 2
+
+--
+
++ MidpointEsplicit (MathExpr, MathExpr, double, double, double, double, 
+                         MathTokenSymbol, MathTokenSymbol, int)
++ MidpointEsplicit (MathExpr, double, double, double, double, 
+                         MathTokenSymbol, MathTokenSymbol, int)
+
+
+# butcherTableInitialise (): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1290</x>
+      <y>1620</y>
+      <w>530</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>odeSolver::Radau3
+
+--
+
+# methodName = "Radau3"
+# methodType = "implicit"
+# methodOrder = 3
+
+# r = 1
+
+--
+
++ Radau3 (MathExpr, MathExpr, double, double, double, double, 
+                 MathTokenSymbol, MathTokenSymbol, int)
++ Radau3 (MathExpr, double, double, double, double, 
+                 MathTokenSymbol, MathTokenSymbol, int)
+
+
+# butcherTableInitialise (): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1290</x>
+      <y>850</y>
+      <w>520</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>odeSolver::MidpointImplicit
+
+--
+
+# methodName = "MidpointImplicit"
+# methodType = "implicit"
+# methodOrder = 2
+
+# r = 2
+
+--
+
++ MidpointImplicit (MathExpr, MathExpr, double, double, double, double, 
+                         MathTokenSymbol, MathTokenSymbol, int)
++ MidpointImplicit (MathExpr, double, double, double, double, 
+                         MathTokenSymbol, MathTokenSymbol, int)
+
+
+# butcherTableInitialise (): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1920</x>
+      <y>1620</y>
+      <w>500</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>odeSolver::RK4
+
+--
+
+# methodName = "RK4"
+# methodType = "esplicit"
+# methodOrder = 4
+
+# r = 4
+
+--
+
++ RK4 (MathExpr, MathExpr, double, double, double, double, 
+                 MathTokenSymbol, MathTokenSymbol, int)
++ RK4 (MathExpr, double, double, double, double, 
+                 MathTokenSymbol, MathTokenSymbol, int)
+
+
+# butcherTableInitialise (): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1290</x>
+      <y>1090</y>
+      <w>530</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>odeSolver::GaussLegendre4
+
+--
+
+# methodName = "GaussLegendre4"
+# methodType = "implicit"
+# methodOrder = 4
+
+# r = 4
+
+--
+
++ GaussLegendre4 (MathExpr, MathExpr, double, double, double, double, 
+                 MathTokenSymbol, MathTokenSymbol, int)
++ GaussLegendre4 (MathExpr, double, double, double, double, 
+                 MathTokenSymbol, MathTokenSymbol, int)
+
+
+# butcherTableInitialise (): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1290</x>
+      <y>1350</y>
+      <w>530</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>odeSolver::GaussLegendre6
+
+--
+
+# methodName = "GaussLegendre6"
+# methodType = "implicit"
+# methodOrder = 6
+
+# r = 6
+
+--
+
++ GaussLegendre4 (MathExpr, MathExpr, double, double, double, double, 
+                 MathTokenSymbol, MathTokenSymbol, int)
++ GaussLegendre4 (MathExpr, double, double, double, double, 
+                 MathTokenSymbol, MathTokenSymbol, int)
+
+
+# butcherTableInitialise (): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1290</x>
+      <y>1870</y>
+      <w>530</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>odeSolver::Radau5
+
+--
+
+# methodName = "Radau5"
+# methodType = "implicit"
+# methodOrder = 5
+
+# r = 3
+
+--
+
++ Radau5 (MathExpr, MathExpr, double, double, double, double, 
+                 MathTokenSymbol, MathTokenSymbol, int)
++ Radau5 (MathExpr, double, double, double, double, 
+                 MathTokenSymbol, MathTokenSymbol, int)
+
+
+# butcherTableInitialise (): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1930</x>
+      <y>1350</y>
+      <w>500</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>odeSolver::Ralston
+
+--
+
+# methodName = "Ralston"
+# methodType = "esplicit"
+# methodOrder = 2
+
+# r = 2
+
+--
+
++ Ralston (MathExpr, MathExpr, double, double, double, double, 
+                         MathTokenSymbol, MathTokenSymbol)
++ Ralston (MathExpr, double, double, double, double, 
+                         MathTokenSymbol, MathTokenSymbol)
+
+# butcherTableInitialise (): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>650</x>
+      <y>890</y>
+      <w>500</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>odeSolver::EulerImplicit
+
+--
+
+# methodName = "EulerImplicit"
+# methodType = "implicit"
+# methodOrder = 1
+# r = 1
+# s = 1
+
+--
+
++ EulerImplicit (MathExpr, MathExpr, double, double, double, double, 
+                          MathTokenSymbol, MathTokenSymbol)
++ EulerImplicit (MathExpr, double, double, double, double, 
+                          MathTokenSymbol, MathTokenSymbol)
+
+# solveODE (): double[] </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>10</x>
+      <y>1120</y>
+      <w>500</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>odeSolver::BFD
+
+--
+
+# methodName = "AdamsBashforth"
+# methodType = "implicit"
+# methodOrder:int (da 1 a 6)
+
+# s:int (da 1 a 6)
+
+--
+
++ BFD (MathExpr, MathExpr, double, double, double, double, 
+                          MathTokenSymbol, MathTokenSymbol, int)
++ BFD (MathExpr, double, double, double, double, 
+                          MathTokenSymbol, MathTokenSymbol, int)
+
+# solveODE (): double[] </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>0</x>
+      <y>1450</y>
+      <w>530</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>odeSolver::AdamsBashforth
+
+--
+
+# methodName = "AdamsBashforth"
+# methodType = "esplicit"
+# methodOrder:int (da 1 a 5)
+
+# s:int (da 1 a 5)
+
+--
+
++ AdamsBashforth (MathExpr, MathExpr, double, double, double, double, 
+                          MathTokenSymbol, MathTokenSymbol, int)
++ AdamsBashforth (MathExpr, double, double, double, double, 
+                          MathTokenSymbol, MathTokenSymbol, int)
+
+# solveODE (): double[] </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>760</x>
+      <y>40</y>
+      <w>270</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>GUI
+
+--
+
+- frame: JFrame
+- inputPanel: JPanel
+- input: JTextField
+- calculateButton: JButton
+- methodsBox: JComboBox
+- exact: JToggleButton
+- inputExact: JTextField
+- plotPanel: JPanel
+- errorsPanel: JPanel
+- errorStat: JLabel
+
+--
+
++ GUI ()
+- guiInitialise (): void
+- guiCreator (): void
++ actionListener (event)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>1270</x>
+      <y>40</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>PlotLibrary</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>170</x>
+      <y>90</y>
+      <w>50</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>30;130;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>970</x>
+      <y>520</y>
+      <w>50</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>30;130;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>530</x>
+      <y>700</y>
+      <w>220</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;200;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1210</x>
+      <y>670</y>
+      <w>420</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;400;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>220</x>
+      <y>750</y>
+      <w>620</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>600;30;600;90;30;90;30;130</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>500</x>
+      <y>910</y>
+      <w>100</w>
+      <h>1030</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;80;30;80;1010</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>480</x>
+      <y>1150</y>
+      <w>120</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;100;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>490</x>
+      <y>1890</y>
+      <w>110</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;90;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>500</x>
+      <y>1520</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;80;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1120</x>
+      <y>950</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;80;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1110</x>
+      <y>1230</y>
+      <w>110</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;90;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1170</x>
+      <y>750</y>
+      <w>50</w>
+      <h>530</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;510</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1840</x>
+      <y>750</y>
+      <w>50</w>
+      <h>1280</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;1260</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1790</x>
+      <y>1980</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;80;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1840</x>
+      <y>1940</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;80;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1840</x>
+      <y>1690</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;80;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1790</x>
+      <y>1730</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;80;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1840</x>
+      <y>1420</y>
+      <w>110</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;90;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1790</x>
+      <y>1450</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;80;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1840</x>
+      <y>1170</y>
+      <w>110</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;90;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1790</x>
+      <y>1200</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;80;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1780</x>
+      <y>980</y>
+      <w>110</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;90;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1840</x>
+      <y>950</y>
+      <w>110</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;90;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>530</x>
+      <y>230</y>
+      <w>250</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>230;30;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1000</x>
+      <y>20</y>
+      <w>290</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>30;130;190;130;190;30;270;30</additional_attributes>
+  </element>
+</diagram>
