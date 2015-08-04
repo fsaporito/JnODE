@@ -8,6 +8,7 @@ import MathToken.MathTokenSymbol;
 
 public class Roots {
 
+	static double precision = 0.0000000001;
 	
 	/**
 	 * Bisection Method 
@@ -16,12 +17,11 @@ public class Roots {
 	 * @param y Symbol
 	 * @param a First Point
 	 * @param b Last Point
-	 * @param precision
 	 * @return The Root
 	 * @throws WrongInputException
 	 * @throws WrongCalculationException
 	 */
-	public static double bisection (MathExpr func, MathTokenSymbol y, double a, double b, double precision) throws WrongInputException, WrongCalculationException {
+	public static double bisection (MathExpr func, MathTokenSymbol y, double a, double b) throws WrongInputException, WrongCalculationException {
 		
 		if (a == b) {
 			
@@ -97,12 +97,11 @@ public class Roots {
 	 * @param func Function To Analyze
 	 * @param y Symbol
 	 * @param y0 First Point
-	 * @param precision
 	 * @return The Root
 	 * @throws WrongInputException
 	 * @throws WrongCalculationException
 	 */
-	public static double secant (MathExpr func, MathTokenSymbol y, double y0, double precision) throws WrongInputException, WrongCalculationException {
+	public static double secant (MathExpr func, MathTokenSymbol y, double y0) throws WrongInputException, WrongCalculationException {
 		
 		// Y0 = f(y0)
 		double Y0 = func.evalSymbolic(y0).getOperandDouble();
@@ -114,15 +113,15 @@ public class Roots {
 			
 		}
 		
-		double a = y0;
+		double a = y0; // Starting Point
 		
-		double yold = y0 + precision;
+		double yold = y0 + precision; // First Point
 		
 		double A = func.evalSymbolic(a).getOperandDouble();
 		
 		double Yold = func.evalSymbolic(yold).getOperandDouble();
 		
-		while (Math.abs(Y0) < precision) {
+		while (Math.abs(Y0) > precision) {
 			
 			Yold = func.evalSymbolic(yold).getOperandDouble();
 			
@@ -149,16 +148,15 @@ public class Roots {
 	 * @param func Function To Analyze
 	 * @param y Symbol
 	 * @param y0 First Point
-	 * @param precision
 	 * @return The Root
 	 * @throws WrongInputException
 	 * @throws WrongCalculationException
 	 * @throws WrongExpressionException 
 	 */
-	public static double newton (MathExpr func, MathTokenSymbol y, double y0, double precision) throws WrongInputException, WrongCalculationException, WrongExpressionException {
+	public static double newton (MathExpr func, MathTokenSymbol y, double y0) throws WrongInputException, WrongCalculationException, WrongExpressionException {
 		
 		// Derive func
-		MathExpr Dfunc = func.derivate(y);
+		MathExpr Dfunc = func.derive(y);
 		
 		// Y0 = f(y0)
 		double Y0 = func.evalSymbolic(y0).getOperandDouble();
@@ -176,7 +174,7 @@ public class Roots {
 		
 		double DYold = 0.0;
 		
-		while (Math.abs(Y0) < precision) {
+		while (Math.abs(Y0) > precision) {
 			
 			Yold = func.evalSymbolic(yold).getOperandDouble();
 			

@@ -3,6 +3,7 @@ package Test;
 
 import java.util.ArrayList;
 
+import odeSolver.DifferentialEquation;
 import odeSolver.EulerEsplicit;
 import odeSolver.EulerImplicit;
 import odeSolver.OdeSolver;
@@ -36,10 +37,18 @@ public class Test {
 		
 		ArrayList<OdeSolver> ode = new ArrayList<OdeSolver>();
 		
-		OdeSolver ee = new EulerEsplicit (exactExpr, functionExpr, t0, y0, step, tmax, new MathTokenSymbol ("t"), new MathTokenSymbol ("y"));
+		DifferentialEquation diff = new DifferentialEquation (exactExpr, functionExpr, t0, y0, step, tmax, new MathTokenSymbol ("t"), new MathTokenSymbol ("y"));
+		
+		System.out.println (diff.toString());
+		
+		OdeSolver ee = new EulerEsplicit (diff.clone());
+		ee.solve();
+		ee.errors();
 		ode.add(ee);
 		
-		OdeSolver ei = new EulerImplicit (exactExpr, functionExpr, t0, y0, step, tmax, new MathTokenSymbol ("t"), new MathTokenSymbol ("y"));
+		OdeSolver ei = new EulerImplicit (diff.clone());
+		ei.solve();
+		ei.errors();
 		ode.add(ei);
 		
 		
@@ -47,21 +56,26 @@ public class Test {
 		
 			System.out.println (ode.get(i).getMethodName() + ":");
 			
-			System.out.println ("Error Avg: " + ei.getErrorAvg());
-			System.out.println ("Error Perc Avg: " + ei.getErrorPercAvg());
+			System.out.println ("");
+			
+			for (int j = 0; j < ode.get(i).getDiff().getYk().length; j++) {
+				
+				System.out.println ("[" + j + "] " + ode.get(i).getDiff().getYk()[j]);
+				
+			}
+			
+			System.out.println ("");
+			
+			System.out.println ("Error Perc Avg: " + ode.get(i).getDiff().getErrorsPercAvg());
 			System.out.println ("");
 		
-			System.out.println ("Error Var: " + ei.getErrorVar());
-			System.out.println ("Error Perc Var: " + ei.getErrorPercVar());
+			System.out.println ("Error Perc Var: " + ode.get(i).getDiff().getErrorsPercVar());
 			System.out.println ("");
-		
-			System.out.println ("Error SD: " + ei.getErrorSd());
-			System.out.println ("Error Perc SD: " + ei.getErrorPercSd());
+			
+			System.out.println ("Error Perc SD: " + ode.get(i).getDiff().getErrorsPercSd());
 			System.out.println ("\n\n");
 			
-		}
-		
-	
+		}	
 			
 	}
 

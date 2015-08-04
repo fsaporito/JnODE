@@ -22,164 +22,15 @@ public class EulerImplicit extends OdeSolver {
 
 	
 	/**
-	 * Euler Implicit Constructor: General Case (With Exact Solution)
+	 * Euler Implicit Constructor
 	 * 
-	 * @param exact Exact Solution
-	 * @param func f(t, y(t))
-	 * @param t0 Initial Time
-	 * @param y0 Initial Value y(t0) = y0
-	 * @param step difference between each moment
-	 * @param tmax max time, end of calculation
-	 * @param t Independent Symbol t
-	 * @param y Dependent Symbol y(t)
+	 * @param diff Differential Equation To Solve
 	 * @throws WrongInputException Null Input
 	 * @throws WrongCalculationException 
 	 */
-	public EulerImplicit (MathExpr exact, MathExpr func, double t0, double y0, double step, double tmax, MathTokenSymbol t, MathTokenSymbol y) throws WrongInputException, WrongCalculationException {
+	public EulerImplicit (DifferentialEquation diff) throws WrongInputException, WrongCalculationException {
 		
-		super(exact, func, t0, y0, step, tmax, t, y);
-		
-		this.methodName = "Euler Implicit";
-		this.methodOrder = 1;
-		this.methodType = "implicit";
-		
-	}
-
-	
-	/**
-	 * Euler Implicit Constructor: General Case (Without Exact Solution)
-	 * 
-	 * @param func f(t, y(t))
-	 * @param t0 Initial Time
-	 * @param y0 Initial Value y(t0) = y0
-	 * @param step difference between each moment
-	 * @param tmax max time, end of calculation
-	 * @param t Independent Symbol t
-	 * @param y Dependent Symbol y(t)
-	 * @throws WrongInputException Null Input
-	 * @throws WrongCalculationException 
-	 */
-	public EulerImplicit (MathExpr func, double t0, double y0, double step, double tmax, MathTokenSymbol t, MathTokenSymbol y) throws WrongInputException, WrongCalculationException {
-		
-		super (func, t0, y0, step, tmax, t, y);
-		
-		this.methodName = "Euler Implicit";
-		this.methodOrder = 1;
-		this.methodType = "implicit";
-		
-	}
-
-	
-	/**
-	 * Euler Implicit Constructor: String Symbols  (With Exact Solution)
-	 * 
-	 * @param exact Exact Solution
-	 * @param func f(t, y(t))
-	 * @param t0 Initial Time
-	 * @param y0 Initial Value y(t0) = y0
-	 * @param step difference between each moment
-	 * @param tmax max time, end of calculation
-	 * @param t Independent Symbol String t
-	 * @param y Dependent Symbol String y(t)
-	 * @throws WrongInputException Null Input
-	 * @throws WrongCalculationException 
-	 */
-	public EulerImplicit(MathExpr exact, MathExpr func, double t0, double y0, double step, double tmax, String t, String y) throws WrongInputException, WrongCalculationException {
-		
-		super (exact, func, t0, y0, step, tmax, t, y);
-		
-		this.methodName = "Euler Implicit";
-		this.methodOrder = 1;
-		this.methodType = "implicit";
-		
-	}
-
-	
-	/**
-	 * Euler Implicit Constructor: String Symbols  (Without Exact Solution)
-	 * 
-	 * @param func f(t, y(t))
-	 * @param t0 Initial Time
-	 * @param y0 Initial Value y(t0) = y0
-	 * @param step difference between each moment
-	 * @param tmax max time, end of calculation
-	 * @param t Independent Symbol String t
-	 * @param y Dependent Symbol String y(t)
-	 * @throws WrongInputException Null Input
-	 * @throws WrongCalculationException 
-	 */
-	public EulerImplicit(MathExpr func, double t0, double y0, double step, double tmax, String t, String y) throws WrongInputException, WrongCalculationException {
-		
-		super (func, t0, y0, step, tmax, t, y);
-		
-		this.methodName = "Euler Implicit";
-		this.methodOrder = 1;
-		this.methodType = "implicit";
-		
-	}
-
-	
-	/**
-	 * Euler Implicit Constructor: Default t0 = 0, step = 0.1, tmax = 1 (With Exact Solution)
-	 * 
-	 * @param exact Exact Solution
-	 * @param func f(t, y(t))
-	 * @param y0 Initial Value y(t0) = y0
-	 * @param t Independent Symbol t
-	 * @param y Dependent Symbol y(t)
-	 * @throws WrongInputException Null Input
-	 * @throws WrongCalculationException 
-	 */
-	public EulerImplicit(MathExpr exact, MathExpr func, double y0, MathTokenSymbol t, MathTokenSymbol y) throws WrongInputException, WrongCalculationException {
-		
-		super(exact, func, y0, t, y);
-		
-		this.methodName = "Euler Implicit";
-		this.methodOrder = 1;
-		this.methodType = "implicit";
-		
-	}
-
-	
-	/**
-	 * Euler Implicit Constructor: String Symbols, Default t0 = 0, step = 0.1, tmax = 1 (Without Exact Solution)
-	 * 
-	 * @param exact Exact Solution
-	 * @param func f(t, y(t))
-	 * @param y0 Initial Value y(t0) = y0
-	 * @param t Independent Symbol String t
-	 * @param y Dependent Symbol String y(t)
-	 * @throws WrongInputException Null Input
-	 * @throws WrongCalculationException 
-	 */
-	public EulerImplicit(MathExpr exact, MathExpr func, double y0, String t, String y) throws WrongInputException, WrongCalculationException {
-		
-		super(exact, func, y0, t, y);
-		
-		this.methodName = "Euler Implicit";
-		this.methodOrder = 1;
-		this.methodType = "implicit";
-		
-	}
-
-	
-	/**
-	 * Euler Implicit Constructor: String Symbols, Default t0 = 0, step = 0.1, tmax = 1 (Without Exact Solution)
-	 * 
-	 * @param func f(t, y(t))
-	 * @param y0 Initial Value y(t0) = y0
-	 * @param t Independent Symbol String t
-	 * @param y Dependent Symbol String y(t)
-	 * @throws WrongInputException Null Input
-	 * @throws WrongCalculationException 
-	 */
-	public EulerImplicit(MathExpr func, double y0, String t, String y) throws WrongInputException, WrongCalculationException {
-		
-		super(func, y0, t, y);
-		
-		this.methodName = "Euler Implicit";
-		this.methodOrder = 1;
-		this.methodType = "implicit";
+		super(diff, "EulerImplicit", "1", "implicit");
 		
 	}
 	
@@ -193,17 +44,31 @@ public class EulerImplicit extends OdeSolver {
 	@Override
 	protected double[] solveODE() {
 		
-		for (int i = 1; i < this.stepNumber; i++) {
+		int stepNumber = diff.getStepNumber();
+		double[] yk = new double[stepNumber];
+		yk[0] = diff.getY0();
+		double[] timeInterval = diff.getTimeInterval();
+		MathTokenSymbol t = diff.getT();
+		MathTokenSymbol y = diff.getY();
+		
+		for (int i = 1; i < stepNumber; i++) {
 		
 			try {
 				
-				String strFun = this.y.getValue() + " - " + this.yk[i-1] + " - (" + this.step + " * (" + this.func.deSym(this.func, this.t, this.timeInterval[i-1]) + "))"; 
+				String strFun = y.getValue() + 
+						        " - " + 
+						        yk[i-1] + 
+						        " - (" + 
+						        diff.getStep() + 
+						        " * (" + 
+						        diff.getFunc().deSym(diff.getFunc(), t, timeInterval[i-1]) + 
+						        "))"; 
 				
 				MathParser parser = new MathParser (strFun, "infix");
 				
 				MathExpr exprFunc = parser.getMathExpr();
 				
-				this.yk[i] = MathNum.Roots.newton(exprFunc, this.y, this.yk[i-1], tol);				
+				yk[i] = MathNum.Roots.secant(exprFunc, y, yk[i-1]);				
 			
 			} catch (WrongCalculationException | WrongInputException | WrongExpressionException e) {
 				
@@ -213,10 +78,14 @@ public class EulerImplicit extends OdeSolver {
 					
 		}
 		
-		return this.yk;
+		diff.setYk (yk);
+		diff.setSolved(true);
+		
+		return yk;
 		
 	}
 
 
 }
+
 
