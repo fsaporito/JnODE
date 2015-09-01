@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import odeSolver.DifferentialEquation;
 import odeSolver.EulerEsplicit;
+import odeSolver.EulerEsplicitRK;
 import odeSolver.EulerImplicit;
 import odeSolver.OdeSolver;
 import Exceptions.WrongCalculationException;
@@ -46,11 +47,17 @@ public class Test {
 		ee.errors();
 		ode.add(ee);
 		
+		OdeSolver eeRK = new EulerEsplicitRK (diff.clone());
+		eeRK.solve();
+		eeRK.errors();
+		ode.add(eeRK);
+		
 		OdeSolver ei = new EulerImplicit (diff.clone());
 		ei.solve();
 		ei.errors();
-		ode.add(ei);
+		ode.add(ei);	
 		
+		System.out.println ("\n");
 		
 		for (int i = 0; i < ode.size(); i++) {
 		

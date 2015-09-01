@@ -30,7 +30,7 @@ public class EulerImplicit extends OdeSolver {
 	 */
 	public EulerImplicit (DifferentialEquation diff) throws WrongInputException, WrongCalculationException {
 		
-		super(diff, "EulerImplicit", "1", "implicit");
+		super(diff, "EulerImplicit","implicit", "1");
 		
 	}
 	
