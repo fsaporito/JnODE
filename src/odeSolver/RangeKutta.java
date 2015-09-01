@@ -18,12 +18,9 @@ public abstract class RangeKutta extends GLM {
 	/** Nodes Array */
 	protected double[] c;
 	
-	public RangeKutta(DifferentialEquation diff, String methodName, String methodType, String methodOrder, int r) throws WrongInputException {
+	public RangeKutta (DifferentialEquation diff, String methodName, String methodType, String methodOrder, int r) throws WrongInputException {
 		
-		super(diff, methodName, methodType, methodOrder, r, 0);
-		
-		System.out.println ("r = " + this.r);
-		
+		super(diff, methodName, methodType, methodOrder, r, 0);		
 		
 		// Range-Kutta Matrix Definition
 		this.A = new double[r+1][r+1];
@@ -96,8 +93,6 @@ public abstract class RangeKutta extends GLM {
 			
 		}
 		
-		System.out.println ("Method Type: " + this.getMethodType());
-		
 		if (this.getMethodType().equals("explicit")) {
 			
 			// y[n+1] = y[n] + SUM (i=1..r) {b[i]*k[i]}
@@ -107,9 +102,7 @@ public abstract class RangeKutta extends GLM {
 			// k[i] = f (t[n] + c[i]*h, y[n] + h*(a[i][0]*k[0] + a[i][1]*k[1] + .. + a[i][i-1]*k[i-1]) 
 			
 			try {
-				
-				System.out.println ("Computing ...");
-				
+								
 				// sum (bi*ki)
 				double kb_sum;
 				
@@ -129,8 +122,6 @@ public abstract class RangeKutta extends GLM {
 					k[0] = (new MathEvaluator (this.diff.getFunc(), hashTab)).getResult().getOperandDouble();	
 					
 					kb_sum = this.b[0]*k[0];
-					
-					System.out.println ("i = " + i + "  k[0] = " + k[0] + "   kb_sum = " + kb_sum);
 			
 					// Ks Loop Calculator
 					// Starts from 1 because c[0] = 0
@@ -149,8 +140,6 @@ public abstract class RangeKutta extends GLM {
 						}						
 						
 						hashTab.put(y, yk[i-1] + step*ka_sum);
-						
-						System.out.println ("k[" + j + "] = " + k[j]);
 						
 						k[j] = (new MathEvaluator (this.diff.getFunc(), hashTab)).getResult().getOperandDouble();
 					

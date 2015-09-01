@@ -4,7 +4,7 @@ import Exceptions.WrongInputException;
 
 public class EulerEsplicitRK extends RangeKutta {
 
-	public EulerEsplicitRK(DifferentialEquation diff) throws WrongInputException {
+	public EulerEsplicitRK (DifferentialEquation diff) throws WrongInputException {
 		
 		super (diff, "EulerEsplicitRK", "explicit", "1", 1);
 		
@@ -17,8 +17,6 @@ public class EulerEsplicitRK extends RangeKutta {
 	 *   | 1
 	 */
 	protected void tableInitialize() {
-		
-		System.out.println ("Initializing Table...");
 		
 		this.A[0][0] = 0;
 		
