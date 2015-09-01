@@ -8,6 +8,7 @@ import odeSolver.EulerEsplicit;
 import odeSolver.EulerEsplicitRK;
 import odeSolver.EulerImplicit;
 import odeSolver.Heun;
+import odeSolver.Kutta3;
 import odeSolver.MidPointExplicit;
 import odeSolver.OdeSolver;
 import odeSolver.Ralston;
@@ -78,7 +79,14 @@ public class Test {
 		OdeSolver ralston = new Ralston (diff.clone());
 		ralston.solve();
 		ralston.errors();
-		ode.add(ralston);		
+		ode.add(ralston);	
+		
+		
+		// Kutta3
+		OdeSolver kutta3 = new Kutta3 (diff.clone());
+		kutta3.solve();
+		kutta3.errors();
+		ode.add(kutta3);
 		
 		
 		System.out.println ("\n");
