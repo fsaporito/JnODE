@@ -11,6 +11,7 @@ import odeSolver.Heun;
 import odeSolver.Kutta3;
 import odeSolver.MidPointExplicit;
 import odeSolver.OdeSolver;
+import odeSolver.RK4;
 import odeSolver.Ralston;
 import Exceptions.WrongCalculationException;
 import Exceptions.WrongExpressionException;
@@ -87,7 +88,12 @@ public class Test {
 		kutta3.solve();
 		kutta3.errors();
 		ode.add(kutta3);
-		
+
+		// RK4
+		OdeSolver rk4 = new RK4 (diff.clone());
+		rk4.solve();
+		rk4.errors();
+		ode.add(rk4);
 		
 		System.out.println ("\n");
 		
