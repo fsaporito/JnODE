@@ -7,8 +7,10 @@ import odeSolver.DifferentialEquation;
 import odeSolver.EulerEsplicit;
 import odeSolver.EulerEsplicitRK;
 import odeSolver.EulerImplicit;
+import odeSolver.Heun;
 import odeSolver.MidPointExplicit;
 import odeSolver.OdeSolver;
+import odeSolver.Ralston;
 import Exceptions.WrongCalculationException;
 import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
@@ -66,6 +68,17 @@ public class Test {
 		mpe.errors();
 		ode.add(mpe);
 		
+		// Heun
+		OdeSolver heun = new Heun (diff.clone());
+		heun.solve();
+		heun.errors();
+		ode.add(heun);
+
+		// Ralston
+		OdeSolver ralston = new Ralston (diff.clone());
+		ralston.solve();
+		ralston.errors();
+		ode.add(ralston);		
 		
 		
 		System.out.println ("\n");
@@ -82,14 +95,6 @@ public class Test {
 			System.out.println ("\n\n");
 			
 		}	
-		
-		
-		double[][] matrix = new double[2][2];
-		
-		matrix[0][0] = 0;
-		matrix[0][1] = 1;
-		matrix[1][0] = 2;
-		matrix[1][1] = 3;
 		
 			
 	}
