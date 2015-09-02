@@ -22,20 +22,20 @@ public class Ralston extends RangeKutta {
 	protected void tableInitialize() {
 		
 		// Range-Kutta Matrix First Row
-		this.A[0][0] = 0;
-		this.A[0][1] = 0;
+		this.A[0][0] = 0.0;
+		this.A[0][1] = 0.0;
 		
 		// Range-Kutta Matrix Second Row
-		this.A[1][0] = 2/3;
-		this.A[1][1] = 0;
+		this.A[1][0] =(double) 2/3;
+		this.A[1][1] = 0.0;
 		
 		// Weights Array
-		this.b[0] = 1/4;		
-		this.b[1] = 3/4;
+		this.b[0] = 0.25;		
+		this.b[1] = 0.75;
 		
 		// Nodes Array
-		this.c[0] = 0;		
-		this.c[1] = 2/3;
+		this.c[0] = 0.0;		
+		this.c[1] =(double) 2/3;
 
 	}
 

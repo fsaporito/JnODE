@@ -6,7 +6,7 @@ public class EulerExplicitRK extends RangeKutta {
 
 	public EulerExplicitRK (DifferentialEquation diff) throws WrongInputException {
 		
-		super (diff, "EulerEsplicitRK", "explicit", "1", 1);
+		super (diff, "EulerExplicitRK", "explicit", "1", 1);
 		
 	}
 
@@ -19,13 +19,13 @@ public class EulerExplicitRK extends RangeKutta {
 	protected void tableInitialize() {
 		
 		// Range-Kutta Matrix First Row
-		this.A[0][0] = 0;
+		this.A[0][0] = 0.0;
 		
 		// Weights Array
-		this.b[0] = 1;
+		this.b[0] = 1.0;
 		
 		// Nodes Array
-		this.c[0] = 0;
+		this.c[0] = 0.0;
 		
 		
 

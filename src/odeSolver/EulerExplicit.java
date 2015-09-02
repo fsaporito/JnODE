@@ -18,7 +18,7 @@ public class EulerExplicit extends OdeSolver {
 
 	
 	/**
-	 * Euler Esplicit Constructor
+	 * Euler Explicit Constructor
 	 * 
 	 * @param diff Differential Equation To Solve
 	 * @throws WrongInputException Null Input
@@ -26,7 +26,7 @@ public class EulerExplicit extends OdeSolver {
 	 */
 	public EulerExplicit (DifferentialEquation diff) throws WrongInputException, WrongCalculationException {
 		
-		super(diff, "EulerEsplicit", "explicit", "1");
+		super(diff, "EulerExplicit", "explicit", "1");
 		
 	}
 	

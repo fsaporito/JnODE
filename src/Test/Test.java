@@ -45,7 +45,7 @@ public class Test {
 		DifferentialEquation diff = new DifferentialEquation (exactExpr, functionExpr, t0, y0, step, tmax, new MathTokenSymbol ("t"), new MathTokenSymbol ("y"));
 		
 		System.out.println (diff.toString());
-		
+
 		// Euler Esplicit
 		OdeSolver ee = new EulerExplicit (diff.clone());
 		ee.solve();
@@ -80,8 +80,7 @@ public class Test {
 		OdeSolver ralston = new Ralston (diff.clone());
 		ralston.solve();
 		ralston.errors();
-		ode.add(ralston);	
-		
+		ode.add(ralston);			
 		
 		// Kutta3
 		OdeSolver kutta3 = new Kutta3 (diff.clone());
@@ -94,20 +93,11 @@ public class Test {
 		rk4.solve();
 		rk4.errors();
 		ode.add(rk4);
-		
-		System.out.println ("\n");
+
 		
 		for (int i = 0; i < ode.size(); i++) {
 		
 			System.out.println (ode.get(i).getMethodName() + "\n\n  Type: " + ode.get(i).getMethodType() + "\n  Order: " + ode.get(i).getMethodOrder());
-			
-			System.out.println ("");
-			
-			for (int j = 0; j < ode.get(i).getDiff().getYk().length; j++) {
-				
-				System.out.println ("y[" + j + "] = " + ode.get(i).getDiff().getYk()[j]);
-				
-			}
 			
 			System.out.println ("	- Error Perc Avg: " + ode.get(i).getDiff().getErrorsPercAvg());		
 			System.out.println ("	- Error Perc Var: " + ode.get(i).getDiff().getErrorsPercVar());			
@@ -115,6 +105,7 @@ public class Test {
 			System.out.println ("\n\n");
 			
 		}	
+		
 		
 			
 	}

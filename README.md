@@ -49,3 +49,19 @@ Griffiths, Higham, Numerical Methods for Ordinary Differential Equations
 Hairer, Noersett, Wanner, Solving Ordinary Differential Equations Volume 1 Nonstiff Problems
 Jackiewicz, General Linear Methods For Ordinary Differential Equations
 Quarteroni, Sacco, Saleri, Matematica Numerica
+
+
+
+Methods:
+EulerExplicit - Explicit, Order 1 (RangeKutta, LinearMultistep) - Implemented
+EulerImplicit - Implicit, Order 1 (RangeKutta, LinearMultistep)- Implemented
+Heun - Explicit, Order 2 (RangeKutta) - Implemented
+Ralston - Explicit, Order 2 (RangeKutta) - Implemented
+MidPointExplicit - Explicit, Order 2 (RangeKutta) - Implemented
+MidPointImplicit - Implicit, Order 2 (RangeKutta)
+Kutta3 - Explicit, Order 3 (RangeKutta) - Implemented
+RK4 - Explicit, Order 4 (RangeKutta)- Implemented
+GaussLegendre4 - Implicit, Order 4 (RangeKutta)
+GaussLegendre6 - Implicit, Order 6 (RangeKutta)
+Radau3 - Implicit, Order 3 (RangeKutta)
+Radau5 - Implicit, Order 5 (RangeKutta)
