@@ -94,31 +94,31 @@ public class DifferentialEquation {
 		
 		if (func == null) {
 			
-			throw new WrongInputException ("OdeSolver- Null Function");
+			throw new WrongInputException ("DifferentialEquation- Null Function");
 			
 		}
 		
 		if (t == null) {
 			
-			throw new WrongInputException ("OdeSolver- Null Input Symbol t");
+			throw new WrongInputException ("DifferentialEquation- Null Input Symbol t");
 			
 		}
 
 		if (y == null) {
 	
-			throw new WrongInputException ("OdeSolver- Null Input Symbol y(t)");
+			throw new WrongInputException ("DifferentialEquation- Null Input Symbol y(t)");
 	
 		}
 		
 		if (t0 >= tmax) {
 			
-			throw new WrongInputException ("OdeSolver- t0 (=" + t0 + ") Must Be Less Than maxTime (=" + tmax + ")");
+			throw new WrongInputException ("DifferentialEquation- t0 (=" + t0 + ") Must Be Less Than maxTime (=" + tmax + ")");
 			
 		}
 		
 		if (step <= 0) {
 			
-			throw new WrongInputException ("OdeSolver- Step (=" + step + ") Must Be A Positive Number");
+			throw new WrongInputException ("DifferentialEquation- Step (=" + step + ") Must Be A Positive Number");
 			
 		}
 		

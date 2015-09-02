@@ -4,8 +4,8 @@ package Test;
 import java.util.ArrayList;
 
 import odeSolver.DifferentialEquation;
-import odeSolver.EulerEsplicit;
-import odeSolver.EulerEsplicitRK;
+import odeSolver.EulerExplicit;
+import odeSolver.EulerExplicitRK;
 import odeSolver.EulerImplicit;
 import odeSolver.Heun;
 import odeSolver.Kutta3;
@@ -47,13 +47,13 @@ public class Test {
 		System.out.println (diff.toString());
 		
 		// Euler Esplicit
-		OdeSolver ee = new EulerEsplicit (diff.clone());
+		OdeSolver ee = new EulerExplicit (diff.clone());
 		ee.solve();
 		ee.errors();
 		ode.add(ee);
 		
 		// Euler Esplicit (Range-Kutta Form)
-		OdeSolver eeRK = new EulerEsplicitRK (diff.clone());
+		OdeSolver eeRK = new EulerExplicitRK (diff.clone());
 		eeRK.solve();
 		eeRK.errors();
 		ode.add(eeRK);
@@ -68,7 +68,7 @@ public class Test {
 		OdeSolver mpe = new MidPointExplicit (diff.clone());
 		mpe.solve();
 		mpe.errors();
-		ode.add(mpe);
+		//ode.add(mpe);
 		
 		// Heun
 		OdeSolver heun = new Heun (diff.clone());
@@ -102,6 +102,12 @@ public class Test {
 			System.out.println (ode.get(i).getMethodName() + "\n\n  Type: " + ode.get(i).getMethodType() + "\n  Order: " + ode.get(i).getMethodOrder());
 			
 			System.out.println ("");
+			
+			for (int j = 0; j < ode.get(i).getDiff().getYk().length; j++) {
+				
+				System.out.println ("y[" + j + "] = " + ode.get(i).getDiff().getYk()[j]);
+				
+			}
 			
 			System.out.println ("	- Error Perc Avg: " + ode.get(i).getDiff().getErrorsPercAvg());		
 			System.out.println ("	- Error Perc Var: " + ode.get(i).getDiff().getErrorsPercVar());			

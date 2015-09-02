@@ -23,11 +23,11 @@ public abstract class RangeKutta extends GLM {
 		super(diff, methodName, methodType, methodOrder, r, 0);		
 		
 		// Range-Kutta Matrix Definition
-		this.A = new double[r+1][r+1];
+		this.A = new double[r][r];
 		
-		for (int i = 0; i < r+1; i++) {
+		for (int i = 0; i < r; i++) {
 			
-			for (int j = 0; j < r+1; j++) {
+			for (int j = 0; j < r; j++) {
 				
 				this.A[i][j] = 0;
 				
@@ -59,6 +59,8 @@ public abstract class RangeKutta extends GLM {
 		// Fields Initialization
 		this.tableInitialize();
 		
+		System.out.println (this.tableToString());
+	
 	}
 	
 
@@ -70,6 +72,46 @@ public abstract class RangeKutta extends GLM {
 	
 	
 	protected abstract void tableInitialize ();
+	
+	
+	public String tableToString () {
+		
+		String s = new String();
+		
+		s += "Method Name: " + this.getMethodName() + "\n";
+		s += "Method Type: " + this.getMethodType() + "\n";
+		s += "Method Order: " + this.getMethodOrder() + "\n";
+		s += "Method r: " + this.r + "\n";
+		
+		s += "\n";
+		
+		for (int i = 0; i < this.r; i++) {
+			
+			for (int j = 0; j < this.r; j++)
+			
+			s += "A[" + i + "][" + j + "] = " + A[i][j] + "\n";
+			
+		}
+		
+		s += "\n";
+		
+		for (int i = 0; i < this.b.length; i++) {
+			
+			s += "b[" + i + "] = " + b[i] + "\n";
+			
+		}
+		
+		s += "\n";
+
+		for (int i = 0; i < this.c.length; i++) {
+	
+			s += "c[" + i + "] = " + c[i] + "\n";
+	
+		}
+		
+		return s;
+		
+	}
 	
 	
 	@Override
@@ -92,6 +134,8 @@ public abstract class RangeKutta extends GLM {
 			k[i] = 0;
 			
 		}
+		
+		System.out.println ("\n\n" + this.methodName);
 		
 		if (this.getMethodType().equals("explicit")) {
 			
@@ -122,6 +166,10 @@ public abstract class RangeKutta extends GLM {
 					k[0] = (new MathEvaluator (this.diff.getFunc(), hashTab)).getResult().getOperandDouble();	
 					
 					kb_sum = this.b[0]*k[0];
+					
+					System.out.println ("b[0] = " + b[0] );
+					System.out.println ("k[0] = " + k[0] );
+					
 			
 					// Ks Loop Calculator
 					// Starts from 1 because c[0] = 0
@@ -134,7 +182,8 @@ public abstract class RangeKutta extends GLM {
 						
 						// ka_sum Computing
 						for (int l = 0; l <= j; l++) {
-
+							
+							System.out.println ("A[" + j + "][" + l + "] * k[" + l + "] = " + this.A[j][l] + " * " + k[l] + " = " + this.A[j][l]*k[l]);
 							ka_sum += this.A[j][l]*k[l]; 
 						
 						}						
@@ -142,6 +191,8 @@ public abstract class RangeKutta extends GLM {
 						hashTab.put(y, yk[i-1] + step*ka_sum);
 						
 						k[j] = (new MathEvaluator (this.diff.getFunc(), hashTab)).getResult().getOperandDouble();
+						
+						System.out.println ("k[" + j + "] = " + k[j] );
 					
 					}
 					
@@ -149,10 +200,17 @@ public abstract class RangeKutta extends GLM {
 					for (int j = 1; j < r; j++) {
 
 						kb_sum += this.b[j]*k[j]; 
+						
+						System.out.println ("b[" + j + "] * k[" + j + "] = " + this.b[j] + " * " + k[j] + " = " + this.b[j]*k[j]);
+						System.out.println ("kb_sum = " + kb_sum);						
 					
 					}
 				
-					yk[i] = yk[i-1] + step*kb_sum;
+					yk[i] = yk[i-1] + step*kb_sum;	
+					
+					System.out.println ("yk[" + i + "] = " + yk[i]);
+					
+					System.out.println ();
 				
 				}
 				
