@@ -32,7 +32,7 @@ public abstract class GLM extends OdeSolver {
 		}
 		
 		
-		if (r == 0 && s == 0) {
+		if (r == 0 && s == 0 && this.methodName != "AdamsMoulton") {
 			
 			throw new WrongInputException ("GLM- At least one between r and s must be not zero!!!");
 			
@@ -48,10 +48,6 @@ public abstract class GLM extends OdeSolver {
 		
 	}
 
-	@Override
-	protected double[] solveODE() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }

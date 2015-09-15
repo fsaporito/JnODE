@@ -1,14 +1,11 @@
 package odeSolver;
 
 
-
 import Exceptions.WrongCalculationException;
 import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
-import MathExpr.MathExpr;
+import MathNum.AlgebraicEquationEval;
 import MathToken.MathTokenSymbol;
-import Parser.MathParser;
-
 
 /**
  * Implementation Of The Implicit Euler Methods
@@ -55,21 +52,17 @@ public class EulerImplicit extends OdeSolver {
 		
 			try {
 				
-				String strFun = y.getValue() + 
-						        " - " + 
-						        yk[i-1] + 
+				String strFun = y.getValue() +  	
+						        " - " + 			
+						        yk[i-1] +
 						        " - (" + 
-						        diff.getStep() + 
+						        diff.getStep() +
 						        " * (" + 
-						        diff.getFunc().deSym(diff.getFunc(), t, timeInterval[i-1]) + 
-						        "))"; 
+						        diff.getFunc().deSym(t, timeInterval[i-1]) + 
+						        "))"; 				
 				
-				MathParser parser = new MathParser (strFun, "infix");
-				
-				MathExpr exprFunc = parser.getMathExpr();
-				
-				yk[i] = MathNum.Roots.secant(exprFunc, y, yk[i-1]);				
-			
+				yk[i] = AlgebraicEquationEval.evalAlgebraicZero(strFun, y, yk[i-1]);
+						
 			} catch (WrongCalculationException | WrongInputException | WrongExpressionException e) {
 				
 				e.printStackTrace();

@@ -5,10 +5,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,6 +30,8 @@ import MathExpr.MathExpr;
 import MathToken.MathTokenSymbol;
 import Parser.MathParser;
 
+import odeSolver.AdamsBashforth;
+import odeSolver.AdamsMoulton;
 import odeSolver.DifferentialEquation;
 import odeSolver.OdeSolver;
 
@@ -48,6 +53,7 @@ public class JnODE implements ActionListener {
 	private JLabel labely0;
 	private JLabel labelT0;
 	private JLabel labelTmax;
+	private JLabel labelS;
 	private JLabel labelExact;
 	private JLabel labelError;
 	private JTextField textFieldInput;
@@ -55,10 +61,13 @@ public class JnODE implements ActionListener {
 	private JTextField textFieldy0;
 	private JTextField textFieldT0;
 	private JTextField textFieldTmax;
-	private JTextField textFieldExact;
+	private JTextField textFieldS;
+	private JTextField textFieldExact;	
 	private JButton compButton;
 	private JButton clearButton;
 	private JCheckBox hasExactButton;
+	private JSpinner Spinner;
+	private SpinnerModel Smodel;
 	private JComboBox<String> methodBox;
 	
 	private int sizeNoExact = 160;
@@ -77,7 +86,10 @@ public class JnODE implements ActionListener {
 								   "Ralston",
 								   "Heun",
 								   "Kutta3",
-								   "RK4"
+								   "RK4",
+								   "AdamsBashforth",
+								   "AdamsMoulton",
+								   "BFD"
 									};
 
 	
@@ -121,14 +133,16 @@ public class JnODE implements ActionListener {
 		this.labelT0 = new JLabel ("t0");
 		this.labelTmax = new JLabel ("tmax");
 		this.labelExact = new JLabel ("exact");
+		this.labelS = new JLabel ("s");
 		this.labelError = new JLabel ("Press Compute To Calculate Numerically The Solution");
 		
 		// TextFields Initialization
 		this.textFieldInput = new JTextField (30);
-		this.textFieldStep = new JTextField (5);
-		this.textFieldy0 = new JTextField (5);
-		this.textFieldT0 = new JTextField (5);
-		this.textFieldTmax = new JTextField (5);
+		this.textFieldStep = new JTextField (4);
+		this.textFieldy0 = new JTextField (4);
+		this.textFieldT0 = new JTextField (4);
+		this.textFieldTmax = new JTextField (4);
+		this.textFieldS = new JTextField (4);
 		this.textFieldExact = new JTextField (30);
 		
 		// Text And Scroll Pane Initialization
@@ -140,12 +154,14 @@ public class JnODE implements ActionListener {
 		this.compButton = new JButton ("Compute");
 		this.clearButton = new JButton ("Clear");
 		
+		// Spinner
+		this.Spinner = new JSpinner();
+		
 		// CheckBox Initialization
 		this.hasExactButton = new JCheckBox ("Exact");
 		
 		// ComboBox Initialization
-		this.methodBox = new JComboBox<String>(this.methodList);
-		
+		this.methodBox = new JComboBox<String>(this.methodList);		
 		
 	}
 	
@@ -201,6 +217,7 @@ public class JnODE implements ActionListener {
 		
 		
 		// Action Listeners
+		this.methodBox.addActionListener(this);
 		this.compButton.addActionListener(this);
 		this.clearButton.addActionListener(this);
 		this.hasExactButton.addActionListener(this);
@@ -251,6 +268,106 @@ public class JnODE implements ActionListener {
 			
 		}
 		
+		if (arg0.getActionCommand().equals("comboBoxChanged")) {			
+			
+			if (this.methodBox.getSelectedItem().equals ("AdamsBashforth")
+				| this.methodBox.getSelectedItem().equals ("AdamsMoulton")
+				| this.methodBox.getSelectedItem().equals ("BFD")) {
+				
+				
+				
+				if (this.methodBox.getSelectedItem().equals ("AdamsBashforth")) {
+					
+					// new SpinnerNumberModel (default, min, max, step);
+					this.Smodel = new SpinnerNumberModel (1, 1, 5, 1);
+					
+				}
+				
+				if (this.methodBox.getSelectedItem().equals ("AdamsMoulton")) {
+					
+					// new SpinnerNumberModel (default, min, max, step);
+					this.Smodel = new SpinnerNumberModel (0, 0, 4, 1);
+					
+				}
+				
+				if (this.methodBox.getSelectedItem().equals ("BFD")) {
+					
+					// new SpinnerNumberModel (default, min, max, step);
+					this.Smodel = new SpinnerNumberModel (1, 1, 6, 1);
+					
+				}
+				
+				
+				this.panelParameter.add(this.labelS);
+				this.Spinner.setModel(this.Smodel);
+				this.panelParameter.add(this.Spinner);
+				
+				
+				if (this.hasExactButton.isSelected()) { // Exact Solution Present
+					
+					if (this.isSolved) { // Adjust The Size With The Plot
+						
+						this.frame.setBounds(100, 100, 460, sizeExact+sizePerLine*this.yk.length);
+						
+					} else { // Adjust The Size Without The Plot
+					
+						this.frame.setBounds(100, 100, 460, sizeExact);
+						
+					}
+						
+				} else { // No Exact Solution
+					
+					if (this.isSolved) { // Adjust The Size With The Plot
+						
+						this.frame.setBounds(100, 100, 460, sizeNoExact+sizePerLine*this.yk.length);
+						
+					} else { // Adjust The Size Without The Plot
+					
+						this.frame.setBounds(100, 100, 460, sizeNoExact);
+						
+					}
+					
+				}
+					
+				this.frame.repaint();
+				
+			} else {
+				
+				this.panelParameter.remove(this.labelS);
+				this.panelParameter.remove(this.Spinner);	
+				
+				if (this.hasExactButton.isSelected()) { // Exact Solution Present
+					
+					if (this.isSolved) { // Adjust The Size With The Plot
+						
+						this.frame.setBounds(100, 100, 450, sizeExact+sizePerLine*this.yk.length);
+						
+					} else { // Adjust The Size Without The Plot
+					
+						this.frame.setBounds(100, 100, 450, sizeExact);
+						
+					}
+						
+				} else { // No Exact Solution
+					
+					if (this.isSolved) { // Adjust The Size With The Plot
+						
+						this.frame.setBounds(100, 100, 450, sizeNoExact+sizePerLine*this.yk.length);
+						
+					} else { // Adjust The Size Without The Plot
+					
+						this.frame.setBounds(100, 100, 450, sizeNoExact);
+						
+					}
+					
+				}
+
+				this.frame.repaint();
+				
+			}
+			
+		}
+		
 		if (arg0.getActionCommand().equals(this.clearButton.getText())) {
 			
 			this.textFieldInput.setText("");
@@ -259,6 +376,7 @@ public class JnODE implements ActionListener {
 			this.textFieldT0.setText("");
 			this.textFieldTmax.setText("");
 			this.textFieldExact.setText("");
+			this.textFieldS.setText("");			
 						
 			this.labelError.setText("Press Compute To Calculate Numerically The Solution");
 			this.labelError.setForeground(Color.black);
@@ -297,6 +415,7 @@ public class JnODE implements ActionListener {
 			double t0 = 0.0;
 			double y0 = 0.0;
 			double tmax = 0.0;
+			int s = 0;
 			MathTokenSymbol t = new MathTokenSymbol ("t");
 			MathTokenSymbol y = new MathTokenSymbol ("y");
 			DifferentialEquation diff = null;
@@ -314,6 +433,42 @@ public class JnODE implements ActionListener {
 				t0 = (new MathParser (this.textFieldT0.getText(), "infix")).getMathExpr().getOperandDouble();
 				y0 = (new MathParser (this.textFieldy0.getText(), "infix")).getMathExpr().getOperandDouble();
 				tmax = (new MathParser (this.textFieldTmax.getText(), "infix")).getMathExpr().getOperandDouble();
+				
+				if (this.methodBox.getSelectedItem().equals("AdamsBashforth")) {
+					
+					s = ((SpinnerNumberModel) this.Spinner.getModel()).getNumber().intValue();
+					
+					if (s < 1 || s > 5) {
+						
+						throw new WrongInputException ("s Must Be From 1 To 5 With AdamsBashforth!!!");
+						
+					}
+					
+				}
+				
+				if (this.methodBox.getSelectedItem().equals("AdamsMoulton")) {
+						
+					s = ((SpinnerNumberModel) this.Spinner.getModel()).getNumber().intValue();
+						
+					if (s < 0 || s > 4) {
+							
+						throw new WrongInputException ("s Must Be From 0 To 4 With AdamsMoulton!!!");
+							
+					}
+						
+				}
+				
+				if (this.methodBox.getSelectedItem().equals("BFD")) {
+						
+					s = ((SpinnerNumberModel) this.Spinner.getModel()).getNumber().intValue();
+						
+					if (s < 1 || s > 7) {
+							
+						throw new WrongInputException ("s Must Be From 1 To 6 With BFD!!!");
+							
+					}
+						
+				}
 			
 				if (this.hasExactButton.isSelected()) { // Exact Solution
 					
@@ -346,9 +501,28 @@ public class JnODE implements ActionListener {
 				
 				try {
 					
-					Class<?> c = Class.forName("odeSolver." + methodName);
-					Constructor<?> cons = c.getConstructor(odeSolver.DifferentialEquation.class);
-					OdeSolver solver = (OdeSolver) cons.newInstance(diff);
+					
+					OdeSolver solver = null;
+					
+					if (this.methodBox.getSelectedItem().equals("AdamsBashforth")) { 
+						
+						solver = new AdamsBashforth (diff, s);
+						
+					} else if (this.methodBox.getSelectedItem().equals("AdamsMoulton")) {
+						
+						solver = new AdamsMoulton (diff, s);
+					
+					} else if (this.methodBox.getSelectedItem().equals("BFD")) {
+					
+					
+					} else {						
+					
+					
+						Class<?> c = Class.forName("odeSolver." + methodName);
+						Constructor<?> cons = c.getConstructor(odeSolver.DifferentialEquation.class);
+						solver = (OdeSolver) cons.newInstance(diff);
+						
+					}
 					
 					this.yk = solver.solve();
 					
@@ -394,43 +568,21 @@ public class JnODE implements ActionListener {
 					
 					this.frame.repaint();
 					
-				} catch (ClassNotFoundException e) {
+				} catch (ClassNotFoundException 
+						| NoSuchMethodException 
+						| SecurityException
+						| InstantiationException
+						| IllegalAccessException
+						| IllegalArgumentException
+						| InvocationTargetException
+						| WrongInputException
+						| WrongCalculationException e) {					
 					
-					e.printStackTrace();
+					this.labelError.setText (e.getClass().getName() + ": " + e.getMessage());
 					
-				} catch (NoSuchMethodException e) {
+					this.labelError.setForeground (Color.red);
 					
-					e.printStackTrace();
-					
-				} catch (SecurityException e) {
-					
-					e.printStackTrace();
-					
-				} catch (InstantiationException e) {
-
-					e.printStackTrace();
-					
-				} catch (IllegalAccessException e) {
-
-					e.printStackTrace();
-					
-				} catch (IllegalArgumentException e) {
-
-					e.printStackTrace();
-					
-				} catch (InvocationTargetException e) {
-
-					e.printStackTrace();
-					
-				} catch (WrongInputException e) {
-					
-					e.printStackTrace();
-					
-				} catch (WrongCalculationException e) {
-					
-					e.printStackTrace();
-					
-				}			
+				}	
 				
 			}			
 			
