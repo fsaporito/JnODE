@@ -15,6 +15,12 @@ import javax.swing.JTextPane;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -34,6 +40,7 @@ import Parser.MathParser;
 
 import odeSolver.AdamsBashforth;
 import odeSolver.AdamsMoulton;
+import odeSolver.BFD;
 import odeSolver.DifferentialEquation;
 import odeSolver.OdeSolver;
 
@@ -41,6 +48,7 @@ import odeSolver.OdeSolver;
 public class JnODE implements ActionListener {
 
 	private JFrame frame;
+	
 	private JPanel panelFrame;
 	private JPanel panelConf;
 	private JPanel panelInputOde;
@@ -51,8 +59,6 @@ public class JnODE implements ActionListener {
 	private JPanel panelPlot;
 	private JPanel panelValues;
 	private JPanel panelErrors;
-	private JTextPane textPaneYk;
-	private JTextPane textPaneExact;
 	private JLabel labelInput;
 	private JLabel labelStep;
 	private JLabel labely0;
@@ -60,6 +66,7 @@ public class JnODE implements ActionListener {
 	private JLabel labelTmax;
 	private JLabel labelS;
 	private JLabel labelError;
+	
 	private JTextField textFieldInput;
 	private JTextField textFieldStep;
 	private JTextField textFieldy0;
@@ -67,18 +74,30 @@ public class JnODE implements ActionListener {
 	private JTextField textFieldTmax;
 	private JTextField textFieldS;
 	private JTextField textFieldExact;	
+	
 	private JButton compButton;
 	private JButton clearButton;
 	private JRadioButton plotButton;
 	private JRadioButton valuesButton;
 	private ButtonGroup outputGroup;
 	private JCheckBox hasExactButton;
+	
 	private JSpinner Spinner;
 	private SpinnerModel Smodel;
+	
 	private JComboBox<String> methodBox;
+	
+	private JFreeChart chartPlot;
+	private ChartPanel panelChart;
+	private XYSeries approximatedXY;
+	private XYSeries exactXY;
+	private JTextPane textPaneYk;
+	private JTextPane textPaneExact;
 	
 	private int heightExact = 190;
 	private int widthExact = 430;
+	private int heightPlot = 450;
+	private int widthPlot = 700;
 	private int heightPerLine = 17;
 	
 	private String title = "JnODE";
@@ -501,9 +520,7 @@ public class JnODE implements ActionListener {
 					
 					} else if (this.methodBox.getSelectedItem().equals("BFD")) {
 					
-						this.labelError.setText("BFD Not Implemented Yet");
-						
-						return;
+						solver = new BFD (diff, s);
 					
 					} else {				
 					
@@ -544,6 +561,7 @@ public class JnODE implements ActionListener {
 						| IllegalArgumentException
 						| InvocationTargetException
 						| WrongInputException
+						| WrongExpressionException
 						| WrongCalculationException e) {					
 					
 					this.labelError.setText (e.getClass().getName() + ": " + e.getMessage());
@@ -564,7 +582,7 @@ public class JnODE implements ActionListener {
 
 			if (this.isSolved) {
 			
-				this.frame.setBounds(100, 100, widthExact, heightExact+heightPerLine*this.yk.length);
+				this.frame.setBounds(100, 100, this.widthPlot, this.heightPlot+this.heightExact);
 				
 			}
 			
@@ -603,6 +621,7 @@ public class JnODE implements ActionListener {
 		double[] timeInterval = diff.getTimeInterval();
 		double[] yk = diff.getYk();
 		double[] exact = new double[yk.length];
+		XYSeriesCollection dataset = new XYSeriesCollection ();
 		
 		// Exact Data
 		if (diff.isHasExact()) {
@@ -615,7 +634,7 @@ public class JnODE implements ActionListener {
 					
 					exact[i] = exactExpr.evalSymbolic(timeInterval[i]).getOperandDouble();
 					
-				} catch (WrongCalculationException | WrongInputException e) {
+				} catch (WrongCalculationException | WrongExpressionException | WrongInputException e) {
 					
 					e.printStackTrace();
 				
@@ -667,6 +686,46 @@ public class JnODE implements ActionListener {
 		}
 		
 		
+		// Approximated Serie Generation
+		this.approximatedXY = new XYSeries ("Approximated - " + this.methodBox.getSelectedItem());	
+		for (int i = 0; i < yk.length; i++) { // Approximated Solution
+			
+			this.approximatedXY.add(timeInterval[i], yk[i]);
+			
+		}
+		dataset.addSeries (this.approximatedXY);
+		
+		
+		// Exact Serie Generation
+		if (diff.isHasExact()) { // Exact Solution
+			
+			this.exactXY = new XYSeries ("Exact");
+			
+			for (int i = 0; i < exact.length; i++) { // Exact Solution
+				
+				this.exactXY.add(timeInterval[i], exact[i]);
+				
+			} 
+			
+			dataset.addSeries (this.exactXY);
+			
+		}
+		
+		
+		// Plotting
+		this.chartPlot = ChartFactory.createXYLineChart("y'(t) = "+this.textFieldInput.getText(), // Title
+						 "t", // X Label
+						 "y(t)", // Y Label
+						 dataset);
+		
+		this.panelChart = new ChartPanel (this.chartPlot);
+		
+		this.panelPlot.removeAll();
+				
+		this.panelPlot.add(this.panelChart);
+		
+		
+		// Visualization (ValuesView Or PlotView)
 		if (this.valuesButton.isSelected()) { // Visualize Values List
 		
 			this.panelOutput.removeAll();
@@ -675,16 +734,18 @@ public class JnODE implements ActionListener {
 			
 			this.frame.setBounds(100, 100, widthExact, heightExact+heightPerLine*this.yk.length);
 			
+			this.panelOutput.revalidate();
+			
 		}
 		
 		if (this.plotButton.isSelected()) { // Visualize Plot
 			
 			this.panelOutput.removeAll();
-			this.panelPlot.removeAll();
 			this.panelOutput.add (this.panelPlot, BorderLayout.CENTER);
-			this.panelPlot.add (new JLabel ("Plot Not Coded Yet"));
 			
-			this.frame.setBounds(100, 100, widthExact, heightExact+heightPerLine*this.yk.length);
+			this.frame.setBounds(100, 100, this.widthPlot, this.heightPlot+this.heightExact);
+			
+			this.panelOutput.revalidate();
 			
 		}
 			

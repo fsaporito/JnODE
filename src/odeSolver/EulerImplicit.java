@@ -58,7 +58,7 @@ public class EulerImplicit extends OdeSolver {
 						        " - (" + 
 						        diff.getStep() +
 						        " * (" + 
-						        diff.getFunc().deSym(t, timeInterval[i-1]) + 
+						        diff.getFunc().substituteSymbol(t, timeInterval[i-1]) + 
 						        "))"; 				
 				
 				yk[i] = AlgebraicEquationEval.evalAlgebraicZero(strFun, y, yk[i-1]);

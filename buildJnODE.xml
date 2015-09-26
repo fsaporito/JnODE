@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project JnODE with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="/media/sapo93/DATI1/WorkPlaceDev/Java/JnODE/Jars/JnODE.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="Gui.JnODE"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ jcommon-1.0.23.jar jfreechart-1.0.19.jar MathParser.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="/media/sapo93/DATI1/WorkPlaceDev/Java/JnODE/bin"/>
+            <zipfileset dir="/media/sapo93/DATI1/WorkPlaceDev/Java/JnODE/Jars" includes="jcommon-1.0.23.jar"/>
+            <zipfileset dir="/media/sapo93/DATI1/WorkPlaceDev/Java/JnODE/Jars" includes="jfreechart-1.0.19.jar"/>
+            <fileset dir="/media/sapo93/DATI1/WorkPlaceDev/Java/JnODE/Jars"/>
+            <zipfileset dir="/media/sapo93/DATI1/WorkPlaceDev/Java/JnODE/Jars" includes="MathParser.jar"/>
+        </jar>
+    </target>
+</project>

@@ -3,7 +3,10 @@ package odeSolver;
 import java.util.Hashtable;
 
 import Exceptions.WrongCalculationException;
+import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
+import MathExpr.MathExpr;
+import MathNum.AlgebraicEquationEval;
 import MathToken.MathTokenSymbol;
 import Parser.MathEvaluator;
 
@@ -138,22 +141,23 @@ public abstract class RangeKutta extends GLM {
 			
 		}
 		
-		if (this.getMethodType().equals("explicit")) {
+		// sum (bi*ki)
+		double kb_sum;
+		
+		// sum (ai*ki)
+		double ka_sum;
+		
+		try {
+		
+			// Explicit Method
+			if (this.getMethodType().equals("explicit")) {
 			
-			// y[n+1] = y[n] + SUM (i=1..r) {b[i]*k[i]}
-			// k[0] = f (t[n], y[n]) # c[0] = 0, a[0][0] = 0
-			// k[1] = f (t[n] + c[1]*h, y[n] + h*(a[1][0]*k[0]) 
-			// k[2] = f (t[n] + c[2]*h, y[n] + h*(a[2][0]*k[0] + a[2][1]*k[1]) 
-			// k[i] = f (t[n] + c[i]*h, y[n] + h*(a[i][0]*k[0] + a[i][1]*k[1] + .. + a[i][i-1]*k[i-1]) 
+				// y[n+1] = y[n] + SUM (i=1..r) {b[i]*k[i]}
+				// k[0] = f (t[n], y[n]) # c[0] = 0, a[0][0] = 0
+				// k[1] = f (t[n] + c[1]*h, y[n] + h*(a[1][0]*k[0]) 
+				// k[2] = f (t[n] + c[2]*h, y[n] + h*(a[2][0]*k[0] + a[2][1]*k[1]) 
+				// k[i] = f (t[n] + c[i]*h, y[n] + h*(a[i][0]*k[0] + a[i][1]*k[1] + .. + a[i][i-1]*k[i-1]) 
 			
-			try {
-								
-				// sum (bi*ki)
-				double kb_sum;
-				
-				// sum (ai*ki)
-				double ka_sum;
-				
 				for (int i = 1; i < stepNumber; i++) {
 			
 					ka_sum = 0;
@@ -168,7 +172,7 @@ public abstract class RangeKutta extends GLM {
 					
 					kb_sum = this.b[0]*k[0];
 					
-			
+					
 					// Ks Loop Calculator
 					// Starts from 1 because c[0] = 0
 					for (int j = 1; j < this.r; j++) {
@@ -197,19 +201,89 @@ public abstract class RangeKutta extends GLM {
 						kb_sum += this.b[j]*k[j]; 
 					
 					}
-				
-					yk[i] = yk[i-1] + step*kb_sum;	
 					
-				}
+					// Yk[i] Computation
+					yk[i] = yk[i-1] + step*kb_sum;	
+						
+				}				
+					
 				
-			} catch (WrongCalculationException | WrongInputException e) {
-				
-				e.printStackTrace();
+				// Implicit Method
+				if (this.getMethodType().equals("implicit")) {
+							
+					// y[n+1] = y[n] + h*SUM (i=1..r) {b[i]*k[i]}
+					// k[i] = f (t[n] + c[i]*h, y[n] + h*(a[i][0]*k[0] + a[i][1]*k[1] + .. + a[i][i-1]*k[s]) 
+					// It Has To Be Solved Numerically In Respect To k = k[i] 
+					
+					for (int i = 1; i < stepNumber; i++) {
+						
+						ka_sum = 0;
+						kb_sum = 0;
+						String strFun = "";
+						MathExpr exprFun = null;
+						
+						hashTab.clear();
+						hashTab.put(t, timeInterval[i-1]);
+						hashTab.put(y, yk[i-1]);
 			
-			}
+						// k0 = f (tn+h, yn+h*k0) = f (t[n+1], y[n] + h*k0) -> Euler Implicit
+						MathTokenSymbol kSymbol = (new MathTokenSymbol ("k"));
+						strFun = kSymbol +  	
+						        " - (" + 
+						        diff.getStep() +
+						        " * (" + 
+						        diff.getFunc().substituteSymbol(t, timeInterval[stepNumber]).substituteSymbol(y, ""+yk[stepNumber-1] + " + " + step + " * " + "k" ) + 
+						        "))"; 				
+				
+						k[0] = AlgebraicEquationEval.evalAlgebraicZero(strFun, kSymbol, yk[i-1]);
+						
+						kb_sum = this.b[0]*k[0];
+						
+						
+						// Ks Loop Calculator
+						// Starts from 1 because c[0] = 0
+						for (int j = 1; j < this.r; j++) {
+							
+							hashTab.clear();
+							
+							// tn + h*c[j]
+							hashTab.put(t, timeInterval[i-1] + step*this.c[j]);
+							
+							// ka_sum Computing
+							for (int l = 0; l <= j; l++) {
+								
+								ka_sum += this.A[j][l]*k[l]; 
+							
+							}						
+							
+							hashTab.put(y, yk[i-1] + step*ka_sum);
+							
+							k[j] = (new MathEvaluator (this.diff.getFunc(), hashTab)).getResult().getOperandDouble();
+						
+						}
+						
+						// kb_sum Computing
+						for (int j = 1; j < r; j++) {
+
+							kb_sum += this.b[j]*k[j]; 
+						
+						}
+						
+						// Yk[i] Computation
+						yk[i] = yk[i-1] + step*kb_sum;	
+						
+					}
+				
+				}
+							
+			}			
+				
+		} catch (WrongCalculationException | WrongExpressionException | WrongInputException e) {
+				
+			e.printStackTrace();
 			
 		}
-		
+			
 		this.diff.setSolved(true);
 		
 		this.diff.setYk(yk);

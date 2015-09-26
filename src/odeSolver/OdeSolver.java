@@ -2,6 +2,7 @@ package odeSolver;
 
 
 import Exceptions.WrongCalculationException;
+import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 import MathExpr.MathExpr;
 
@@ -83,7 +84,9 @@ public abstract class OdeSolver {
 	 * @return the methodName
 	 */
 	public String getMethodName() {
+		
 		return methodName;
+	
 	}
 
 
@@ -94,7 +97,9 @@ public abstract class OdeSolver {
 	 * @return the methodType
 	 */
 	public String getMethodType() {
+		
 		return methodType;
+	
 	}
 
 
@@ -105,7 +110,9 @@ public abstract class OdeSolver {
 	 * @return the methodOrder
 	 */
 	public String getMethodOrder() {
+		
 		return methodOrder;
+	
 	}
 
 
@@ -116,7 +123,9 @@ public abstract class OdeSolver {
 	 * @return the diff
 	 */
 	public DifferentialEquation getDiff() {
+		
 		return diff;
+	
 	}
 
 
@@ -125,13 +134,22 @@ public abstract class OdeSolver {
 
 	public double[] solve () {
 		
+		double yk[] = new double[this.diff.getStepNumber()];
+		
 		if (this.diff.isSolved()) {
 			
-			return this.diff.getYk();
+			yk = this.diff.getYk();
 			
-		}
+		} else {
+			
+			yk = this.solveODE();
+			this.diff.setMethodName(this.methodName);
+			this.diff.setMethodType(this.methodType);
+			this.diff.setSolved(true);
+			
+		}		
 		
-		return this.solveODE();
+		return yk;
 		
 	}
 	
@@ -151,8 +169,9 @@ public abstract class OdeSolver {
 	 * @param exactSolution
 	 * @throws WrongInputException 
 	 * @throws WrongCalculationException 
+	 * @throws WrongExpressionException 
 	 */
-	public double[] errors (MathExpr exactSolution) throws WrongInputException, WrongCalculationException {
+	public double[] errors (MathExpr exactSolution) throws WrongInputException, WrongCalculationException, WrongExpressionException {
 		
 		if (exactSolution == null) {
 			
@@ -174,8 +193,9 @@ public abstract class OdeSolver {
 	 * 
 	 * @throws WrongInputException 
 	 * @throws WrongCalculationException 
+	 * @throws WrongExpressionException 
 	 */
-	public double[] errors () throws WrongInputException, WrongCalculationException {
+	public double[] errors () throws WrongInputException, WrongCalculationException, WrongExpressionException {
 			
 		if (!this.diff.isHasExact() || this.diff.getExprExact() == null) {
 				

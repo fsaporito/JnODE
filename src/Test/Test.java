@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import odeSolver.AdamsBashforth;
 import odeSolver.AdamsMoulton;
+import odeSolver.BFD;
 import odeSolver.DifferentialEquation;
 import odeSolver.EulerExplicit;
 import odeSolver.EulerExplicitRK;
@@ -72,7 +73,7 @@ public class Test {
 	}
 	
 	
-	public static void test (MathExpr functionExpr, MathExpr exactExpr, double t0, double tmax, double step, boolean debug) throws WrongCalculationException, WrongInputException {
+	public static void test (MathExpr functionExpr, MathExpr exactExpr, double t0, double tmax, double step, boolean debug) throws WrongCalculationException, WrongInputException, WrongExpressionException {
 		
 		double y0 = exactExpr.evalSymbolic(t0).getOperandDouble();
 		
@@ -189,7 +190,42 @@ public class Test {
 		am4.solve();
 		am4.errors();
 		ode.add(am4);
+		
+		// BFD S = 1
+		OdeSolver bfd1 = new BFD (diff.clone(), 1);
+		bfd1.solve();
+		bfd1.errors();
+		ode.add(bfd1);
 
+		// BFD S = 2
+		OdeSolver bfd2 = new BFD (diff.clone(), 2);
+		bfd2.solve();
+		bfd2.errors();
+		ode.add(bfd2);		
+
+		// BFD S = 3
+		OdeSolver bfd3 = new BFD (diff.clone(), 3);
+		bfd3.solve();
+		bfd3.errors();
+		ode.add(bfd3);		
+
+		// BFD S = 4
+		OdeSolver bfd4 = new BFD (diff.clone(), 4);
+		bfd4.solve();
+		bfd4.errors();
+		ode.add(bfd4);
+		
+		// BFD S = 5
+		OdeSolver bfd5 = new BFD (diff.clone(), 5);
+		bfd5.solve();
+		bfd5.errors();
+		ode.add(bfd5);
+		
+		// BFD S = 6
+		OdeSolver bfd6 = new BFD (diff.clone(), 6);
+		bfd6.solve();
+		bfd6.errors();
+		ode.add(bfd6);
 		
 		for (int i = 0; i < ode.size(); i++) {
 		

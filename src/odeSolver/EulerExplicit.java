@@ -3,6 +3,7 @@ package odeSolver;
 import java.util.Hashtable;
 
 import Exceptions.WrongCalculationException;
+import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 import MathToken.MathTokenSymbol;
 import Parser.MathEvaluator;
@@ -62,7 +63,7 @@ public class EulerExplicit extends OdeSolver {
 					
 				yk[i] = yk[i-1] + diff.getStep()*mathEval.getResult().getOperandDouble();
 				
-			} catch (WrongCalculationException | WrongInputException e) {
+			} catch (WrongCalculationException | WrongExpressionException | WrongInputException e) {
 					
 				e.printStackTrace();
 				

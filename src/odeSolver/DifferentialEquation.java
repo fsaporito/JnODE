@@ -1,6 +1,7 @@
 package odeSolver;
 
 import Exceptions.WrongCalculationException;
+import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 import MathExpr.MathExpr;
 import MathToken.MathTokenSymbol;
@@ -131,7 +132,7 @@ public class DifferentialEquation {
 		this.y0 = y0;		
 		this.step = step;		
 		this.tmax = tmax;	
-		this.tol = 0.0001;
+		this.tol = 0.00000001;
 		this.t = t;		
 		this.y = y;	
 		
@@ -591,8 +592,9 @@ public class DifferentialEquation {
 	 * @param exactSolution
 	 * @throws WrongInputException 
 	 * @throws WrongCalculationException 
+	 * @throws WrongExpressionException 
 	 */
-	public double[] errors (MathExpr exactSolution) throws WrongInputException, WrongCalculationException {
+	public double[] errors (MathExpr exactSolution) throws WrongInputException, WrongCalculationException, WrongExpressionException {
 		
 		if (exactSolution == null) {
 			

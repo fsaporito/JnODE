@@ -72,7 +72,7 @@ public class AdamsMoulton extends LinearMultistep {
 				strFun = y.getValue() + " - " + yk[stepTmp-1] + " - (" + step + " * (";
 				
 				// coeff1 = f(t[i-1], y)
-				strFun += diff.getFunc().deSym(t, timeInterval[stepTmp-1]);
+				strFun += diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-1]);
 				
 				// ))
 				strFun += "))";				        		
@@ -102,11 +102,11 @@ public class AdamsMoulton extends LinearMultistep {
 				strFun = y.getValue() + " - " + yk[stepTmp-1] + " - (" + step + " * (";
 				
 				// coeff1 = (1/2) * f(t[i], y)
-				strFun += "( 0.5 * " + diff.getFunc().deSym(t, timeInterval[stepTmp-1]) + " ) " + " + ";
+				strFun += "( 0.5 * " + diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-1]) + " ) " + " + ";
 				
 				// coeff2 = (1/2) * f(t[i-1], y[i-1])
 				strFun +=  "( 0.5 * " + 
-							diff.getFunc().deSym(t, timeInterval[stepTmp-1]).deSym(y, yk[stepTmp-1]) + " ) ";
+							diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-1]).substituteSymbol(y, yk[stepTmp-1]) + " ) ";
 				
 				// ))
 				strFun += "))";				        		
@@ -138,16 +138,16 @@ public class AdamsMoulton extends LinearMultistep {
 				strFun = y.getValue() + " - " + yk[stepTmp-1] + " - (" + step + " * (";
 				
 				// coeff1 = (5/12) * f(t[i], y)
-				strFun += "( " + ( (double) 5/12) + " * " + diff.getFunc().deSym(t, timeInterval[stepTmp-1]) + " ) "+ " + ";
+				strFun += "( " + ( (double) 5/12) + " * " + diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-1]) + " ) "+ " + ";
 				
 				// coeff2 = (2/3) * f(t[i-1], y[i-1])
 				strFun += "( " + ( (double) 2/3) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-1]).deSym(y, yk[stepTmp-1]) + " ) "
+							diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-1]).substituteSymbol(y, yk[stepTmp-1]) + " ) "
 							+ " + ";
 				
 				// coeff3 = (-1/12) * f(t[i-2], y[i-2])
 				strFun += "( " + ( (double) -1/12) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-2]).deSym(y, yk[stepTmp-2]) + " ) ";
+							diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-2]).substituteSymbol(y, yk[stepTmp-2]) + " ) ";
 				
 				// ))
 				strFun += "))";				        		
@@ -180,21 +180,21 @@ public class AdamsMoulton extends LinearMultistep {
 				strFun = y.getValue() + " - " + yk[stepTmp-1] + " - (" + step + " * (";
 				
 				// coeff1 = (3/8) * f(t[i], y)
-				strFun += "( " + ( (double) 3/12) + " * " + diff.getFunc().deSym(t, timeInterval[stepTmp-1])  + " ) " + " + ";
+				strFun += "( " + ( (double) 3/12) + " * " + diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-1])  + " ) " + " + ";
 				
 				// coeff2 = (19/24) * f(t[i-1], y[i-1])
 				strFun +=  "( " + ( (double) 19/24) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-1]).deSym(y, yk[stepTmp-1])  + " ) "
+							diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-1]).substituteSymbol(y, yk[stepTmp-1])  + " ) "
 							+ " + ";
 				
 				// coeff3 = (-5/24) * f(t[i-2], y[i-2])
 				strFun += "( " + ( (double) -5/12) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-2]).deSym(y, yk[stepTmp-2])  + " ) "
+							diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-2]).substituteSymbol(y, yk[stepTmp-2])  + " ) "
 							+ " + ";
 				
 				// coeff4 = (1/24) * f(t[i-3], y[i-3])
 				strFun +=  "( " + ( (double) 1/24) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-3]).deSym(y, yk[stepTmp-3])  + " ) ";
+							diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-3]).substituteSymbol(y, yk[stepTmp-3])  + " ) ";
 				
 				// ))
 				strFun += "))";				        		
@@ -228,26 +228,26 @@ public class AdamsMoulton extends LinearMultistep {
 				strFun = y.getValue() + " - " + yk[stepTmp-1] + " - (" + step + " * (";
 				
 				// coeff1 = (251/720) * f(t[i], y[i])
-				strFun += "( " + ( (double) 251/720) + " * " + diff.getFunc().deSym(t, timeInterval[stepTmp-1])  + " ) " + " + ";
+				strFun += "( " + ( (double) 251/720) + " * " + diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-1])  + " ) " + " + ";
 				
 				// coeff2 = (646/720) * f(t[i-1], y[i-1])
 				strFun +=  "( " + ( (double) 646/720) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-1]).deSym(y, yk[stepTmp-1])  + " ) "
+							diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-1]).substituteSymbol(y, yk[stepTmp-1])  + " ) "
 							+ " + ";
 				
 				// coeff3 = (-264/720) * f(t[i-2],y[i-2])
 				strFun +=  "( " + ( (double) -264/720) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-2]).deSym(y, yk[stepTmp-2])  + " ) "
+							diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-2]).substituteSymbol(y, yk[stepTmp-2])  + " ) "
 							+ " + ";
 				
 				// coeff4 = (106/720) * f(t[i-3], y[i-3])
 				strFun += "( " +  ( (double) 106/720) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-3]).deSym(y, yk[stepTmp-3])  + " ) "
+							diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-3]).substituteSymbol(y, yk[stepTmp-3])  + " ) "
 							+ " + ";
 				
 				// coeff5 = (-19/720) * f(t[i-4], y[i-4])
 				strFun +=  "( " + ( (double) -19/720) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-3]).deSym(y, yk[stepTmp-3])  + " ) ";
+							diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-3]).substituteSymbol(y, yk[stepTmp-3])  + " ) ";
 				
 				// ))
 				strFun += "))";	

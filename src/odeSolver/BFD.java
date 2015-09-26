@@ -73,15 +73,15 @@ public class BFD extends LinearMultistep {
 				strFun = y.getValue() + " - " + yk[stepTmp-1] + " - (" + step + " * (";
 				
 				// f(t[i-1], y)
-				strFun += diff.getFunc().deSym(t, timeInterval[stepTmp-1]);
+				strFun += diff.getFunc().substituteSymbol(t, timeInterval[stepTmp-1]);
 				
 				// ))
-				strFun += "))";				        		
+				strFun += "))";
 						
-				// y[i+1] = y[i-1] + h*f(t[i-1], y)
+				// y[i] = y[i-1] + h*f(t[i-1], y[i] = y)
 				yk[stepTmp] = MathNum.AlgebraicEquationEval.evalAlgebraicZero(strFun, y, yk[stepTmp-1]);
 				
-				// Step Is 2 3 4 5 6: Exit For Loop
+				// Step Is 2 3 4 5 6 7: Exit For Loop
 				if (this.s >= 2) { 
 					
 					Sless2 = false; 
@@ -98,26 +98,30 @@ public class BFD extends LinearMultistep {
 				
 				strFun = "";
 				
-				// y - step * (
-				strFun = y.getValue() + " - " + yk[stepTmp-1] + " - (" + step + " * (";
+				// y - (
+				strFun = y.getValue() + " - ( ";
 				
-				// coeff1 = y[n-1]
-				strFun += "( 0.5 * " + diff.getFunc().deSym(t, timeInterval[stepTmp-1]) + " ) " + " + ";
+				// Ysum1 = (4/3)*y[i-1]
+				strFun += "( " + ((double) 4/3) + " * " + yk[stepTmp-1] + " ) + ";
 				
-				// coeff2 = (1/2) * f(t[i-1], y[i-1])
-				strFun +=  "( 0.5 * " + 
-							diff.getFunc().deSym(t, timeInterval[stepTmp-1]).deSym(y, yk[stepTmp-1]) + " ) ";
+				// Ysum2 = (-1/3)*y[i-2]
+				strFun += "( " + ((double) -1/3) + " * " + yk[stepTmp-2] + " ) + ";
+				
+				// f_ = (2/3)*h*f(t[i],y[i]=y)
+				strFun += "( " + ((double) 2/3) + " * " + step + " * " + 
+						  diff.getFunc().substituteSymbol(t, timeInterval[stepTmp]) + " )";
 				
 				// ))
-				strFun += "))";				        		
+				strFun += " )";				  
 							
 				
-				// y[i+1] = y[i-1] + h*CoeffSum
-				// coeff1 = (1/2) * f(t[i], y)
-				// coeff2 = (1/2) * f(t[i-1], y[i-1])
+				// y[i] = Ysum + f_
+				// f_ = (2/3)*h*f(t[i],y[i]=y)
+				// Ysum1 = (4/3)*y[i-1]
+				// Ysum2 = (-1/3)*y[i-2]
 				yk[stepTmp] = MathNum.AlgebraicEquationEval.evalAlgebraicZero(strFun, y, yk[stepTmp-1]);
 				
-				// Step Is 3 4 5 6: Exit For Loop
+				// Step Is 3 4 5 6 7: Exit For Loop
 				if (this.s >= 3) { 
 					
 					Sless3 = false; 
@@ -134,32 +138,34 @@ public class BFD extends LinearMultistep {
 				
 				strFun = "";
 				
-				// y - step * (
-				strFun = y.getValue() + " - " + yk[stepTmp-1] + " - (" + step + " * (";
+				// y - (
+				strFun = y.getValue() + " - ( ";
 				
-				// coeff1 = (5/12) * f(t[i], y)
-				strFun += "( " + ( (double) 5/12) + " * " + diff.getFunc().deSym(t, timeInterval[stepTmp-1]) + " ) "+ " + ";
+				// Ysum1 = (18/11)*y[i-1]
+				strFun += "( " + ((double) 18/11) + " * " + yk[stepTmp-1] + " ) + ";
 				
-				// coeff2 = (2/3) * f(t[i-1], y[i-1])
-				strFun += "( " + ( (double) 2/3) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-1]).deSym(y, yk[stepTmp-1]) + " ) "
-							+ " + ";
+				// Ysum2 = (-9/11)*y[i-2]
+				strFun += "( " + ((double) -9/11) + " * " + yk[stepTmp-2] + " ) + ";
 				
-				// coeff3 = (-1/12) * f(t[i-2], y[i-2])
-				strFun += "( " + ( (double) -1/12) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-2]).deSym(y, yk[stepTmp-2]) + " ) ";
+				// Ysum3 = (2/11)*y[i-3]
+				strFun += "( " + ((double) 2/11) + " * " + yk[stepTmp-3] + " ) + ";
+				
+				// f_ = (6/11)*h*f(t[i], y[i]=y)
+				strFun += "( " + ((double) 6/11) + " * " + step + " * " + 
+						  diff.getFunc().substituteSymbol(t, timeInterval[stepTmp]) + " )";
 				
 				// ))
-				strFun += "))";				        		
+				strFun += " )";				        		
 										
 				
-				// y[i+1] = y[i-1] + h*CoeffSum
-				// coeff1 = (5/12) * f(t[i], y)
-				// coeff2 = (2/3) * f(t[i-1], y[i-1])
-				// coeff3 = (-1/12) * f(t[i-2], y[i-2])
+				// y[i] = Ysum + f_
+				// f_ = (6/11)*h*f(t[i], y[i] = y)
+				// Ysum1 = (18/11)*y[i-1]
+				// Ysum2 = (-9/11)*y[i-2]
+				// Ysum3 = (+2/11)*y[i-3]
 				yk[stepTmp] = MathNum.AlgebraicEquationEval.evalAlgebraicZero(strFun, y, yk[stepTmp-1]);
 				
-				// Step Is 4 5 6: Exit For Loop
+				// Step Is 4 5 6 7: Exit For Loop
 				if (this.s >= 4) { 
 					
 					Sless4 = false; 
@@ -176,38 +182,38 @@ public class BFD extends LinearMultistep {
 				
 				strFun = "";
 				
-				// y - step * (
-				strFun = y.getValue() + " - " + yk[stepTmp-1] + " - (" + step + " * (";
+				// y - (
+				strFun = y.getValue() + " - ( ";
 				
-				// coeff1 = (3/8) * f(t[i], y)
-				strFun += "( " + ( (double) 3/12) + " * " + diff.getFunc().deSym(t, timeInterval[stepTmp-1])  + " ) " + " + ";
+				// Ysum1 = (48/25)*y[i-1]
+				strFun += "( " + ((double) 48/25) + " * " + yk[stepTmp-1] + " ) + ";
 				
-				// coeff2 = (19/24) * f(t[i-1], y[i-1])
-				strFun +=  "( " + ( (double) 19/24) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-1]).deSym(y, yk[stepTmp-1])  + " ) "
-							+ " + ";
+				// Ysum2 = (-36/25)*y[i-2]
+				strFun += "( " + ((double) -36/25) + " * " + yk[stepTmp-2] + " ) + ";
 				
-				// coeff3 = (-5/24) * f(t[i-2], y[i-2])
-				strFun += "( " + ( (double) -5/12) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-2]).deSym(y, yk[stepTmp-2])  + " ) "
-							+ " + ";
+				// Ysum3 = (16/25)*y[i-3]
+				strFun += "( " + ((double) 16/25) + " * " + yk[stepTmp-3] + " ) + ";
 				
-				// coeff4 = (1/24) * f(t[i-3], y[i-3])
-				strFun +=  "( " + ( (double) 1/24) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-3]).deSym(y, yk[stepTmp-3])  + " ) ";
+				// Ysum4 = (-3/25)*y[i-4]
+				strFun += "( " + ((double) -3/25) + " * " + yk[stepTmp-4] + " ) + ";
+				
+				// f_ = (12/25)*h*f(t[i], y[i]=y)
+				strFun += "( " + ((double) 12/25) + " * " + step + " * " + 
+						  diff.getFunc().substituteSymbol(t, timeInterval[stepTmp]) + " )";
 				
 				// ))
-				strFun += "))";				        		
+				strFun += " )";		
 							
 						
-				// y[i+1] = y[i-1] + h*CoeffSum
-				// coeff1 = (3/8) * f(t[i], y)
-				// coeff2 = (19/24) * f(t[i-1], y[i-1])
-				// coeff3 = (-5/24) * f(t[i-2], y[i-2])
-				// coeff4 = (1/24) * f(t[i-3], y[i-3])
+				// y[i] = Ysum + f_
+				// f_ = (12/25)*h*f(t[i], y[i] = y)
+				// Ysum1 = (48/25)*y[i-1]
+				// Ysum2 = (-36/35)*y[i-2]
+				// Ysum3 = (+16/25)*y[i-3]
+				// Ysum4 = (-3/25)*y[i-4]
 				yk[stepTmp] = MathNum.AlgebraicEquationEval.evalAlgebraicZero(strFun, y, yk[stepTmp-1]);
 				
-				// Step Is 5 6: Exit For Loop
+				// Step Is 5 6 7: Exit For Loop
 				if (this.s >= 5) { 
 					
 					Sless5 = false; 
@@ -223,39 +229,43 @@ public class BFD extends LinearMultistep {
 			while ( (stepTmp < stepNumber) && Sless6 ) {
 							
 				strFun = "";
-							
-				// y - step * (
-				strFun = y.getValue() + " - " + yk[stepTmp-1] + " - (" + step + " * (";
-							
-				// coeff1 = (3/8) * f(t[i], y)
-				strFun += "( " + ( (double) 3/12) + " * " + diff.getFunc().deSym(t, timeInterval[stepTmp-1])  + " ) " + " + ";
-					
-				// coeff2 = (19/24) * f(t[i-1], y[i-1])
-				strFun +=  "( " + ( (double) 19/24) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-1]).deSym(y, yk[stepTmp-1])  + " ) "
-							+ " + ";
-							
-				// coeff3 = (-5/24) * f(t[i-2], y[i-2])
-				strFun += "( " + ( (double) -5/12) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-2]).deSym(y, yk[stepTmp-2])  + " ) "
-							+ " + ";
-							
-				// coeff4 = (1/24) * f(t[i-3], y[i-3])
-				strFun +=  "( " + ( (double) 1/24) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-3]).deSym(y, yk[stepTmp-3])  + " ) ";
-							
+				
+				// y - (
+				strFun = y.getValue() + " - ( ";
+				
+				// Ysum1 = (300/137)*y[i-1]
+				strFun += "( " + ((double) 300/137) + " * " + yk[stepTmp-1] + " ) + ";
+				
+				// Ysum2 = (-300/137)*y[i-2]
+				strFun += "( " + ((double) -300/137) + " * " + yk[stepTmp-2] + " ) + ";
+				
+				// Ysum3 = (200/137)*y[i-3]
+				strFun += "( " + ((double) 200/137) + " * " + yk[stepTmp-3] + " ) + ";
+				
+				// Ysum4 = (-75/137)*y[i-4]
+				strFun += "( " + ((double) -75/137) + " * " + yk[stepTmp-4] + " ) + ";
+				
+				// Ysum5 = (12/137)*y[i-5]
+				strFun += "( " + ((double) 12/137) + " * " + yk[stepTmp-5] + " ) + ";
+				
+				// f_ = (60/137)*h*f(t[i], y[i]=y)
+				strFun += "( " + ((double) 60/137) + " * " + step + " * " + 
+						  diff.getFunc().substituteSymbol(t, timeInterval[stepTmp]) + " )";
+				
 				// ))
-				strFun += "))";				        		
+				strFun += " )";			        					        		
 										
 									
-				// y[i+1] = y[i-1] + h*CoeffSum
-				// coeff1 = (3/8) * f(t[i], y)
-				// coeff2 = (19/24) * f(t[i-1], y[i-1])
-				// coeff3 = (-5/24) * f(t[i-2], y[i-2])
-				// coeff4 = (1/24) * f(t[i-3], y[i-3])
+				// y[i] = Ysum + f_
+				// f_ = (60/137)*h*f(t[i],y[i])
+				// Ysum1 = (300/137)*y[i-1]
+				// Ysum2 = (-300/137)*y[i-2]
+				// Ysum3 = (200/137)*y[i-3]
+				// Ysum4 = (-75/137)*y[i-4]
+				// Ysum5 = (12/137)*y[i-5]
 				yk[stepTmp] = MathNum.AlgebraicEquationEval.evalAlgebraicZero(strFun, y, yk[stepTmp-1]);
 							
-				// Step Is 6: Exit For Loop
+				// Step Is 6 7: Exit For Loop
 				if (this.s >= 6) { 
 								
 					Sless6 = false; 
@@ -272,40 +282,42 @@ public class BFD extends LinearMultistep {
 				
 				strFun = "";
 				
-				// y - step * (
-				strFun = y.getValue() + " - " + yk[stepTmp-1] + " - (" + step + " * (";
+				// y - (
+				strFun = y.getValue() + " - ( ";
 				
-				// coeff1 = (251/720) * f(t[i], y[i])
-				strFun += "( " + ( (double) 251/720) + " * " + diff.getFunc().deSym(t, timeInterval[stepTmp-1])  + " ) " + " + ";
+				// Ysum1 = (360/147)*y[i-1]
+				strFun += "( " + ((double) 360/147) + " * " + yk[stepTmp-1] + " ) + ";
 				
-				// coeff2 = (646/720) * f(t[i-1], y[i-1])
-				strFun +=  "( " + ( (double) 646/720) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-1]).deSym(y, yk[stepTmp-1])  + " ) "
-							+ " + ";
+				// Ysum2 = (-450/147)*y[i-2]
+				strFun += "( " + ((double) -450/147) + " * " + yk[stepTmp-2] + " ) + ";
 				
-				// coeff3 = (-264/720) * f(t[i-2],y[i-2])
-				strFun +=  "( " + ( (double) -264/720) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-2]).deSym(y, yk[stepTmp-2])  + " ) "
-							+ " + ";
+				// Ysum3 = (400/147)*y[i-3]
+				strFun += "( " + ((double) 400/147) + " * " + yk[stepTmp-3] + " ) + ";
 				
-				// coeff4 = (106/720) * f(t[i-3], y[i-3])
-				strFun += "( " +  ( (double) 106/720) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-3]).deSym(y, yk[stepTmp-3])  + " ) "
-							+ " + ";
+				// Ysum4 = (-225/147)*y[i-4]
+				strFun += "( " + ((double) -225/147) + " * " + yk[stepTmp-4] + " ) + ";
 				
-				// coeff5 = (-19/720) * f(t[i-4], y[i-4])
-				strFun +=  "( " + ( (double) -19/720) + " * " +
-							diff.getFunc().deSym(t, timeInterval[stepTmp-3]).deSym(y, yk[stepTmp-3])  + " ) ";
+				// Ysum5 = (72/147)*y[i-5]
+				strFun += "( " + ((double) 72/147) + " * " + yk[stepTmp-5] + " ) + ";
+				
+				// Ysum5 = (-10/147)*y[i-6]
+				strFun += "( " + ((double) -10/147) + " * " + yk[stepTmp-6] + " ) + ";
+				
+				// f_ = (60/147)*h*f(t[i], y[i]=y)
+				strFun += "( " + ((double) 60/147) + " * " + step + " * " + 
+						  diff.getFunc().substituteSymbol(t, timeInterval[stepTmp]) + " )";
 				
 				// ))
-				strFun += "))";	
+				strFun += " )";		
 
-				// y[i+1] = y[i-1] + h*CoeffSum				
-				// coeff1 = (251/720) * f(t[i], y[i])
-				// coeff2 = (646/720) * f(t[i-1], y[i-1])
-				// coeff3 = (-264/720) * f(t[i-2], y[i-2])
-				// coeff4 = (106/720) * f(t[i-3], y[i-3])
-				// coeff5 = (-19/720) * f(t[i-4], y[i-4])
+				// y[i] = Ysum + f_
+				// f_ = (60/147)*h*f(t[i],y[i])
+				// Ysum1 = (360/147)*y[i-1]
+				// Ysum2 = (-450/147)*y[i-2]
+				// Ysum3 = (400/147)*y[i-3]
+				// Ysum4 = (-225/147)*y[i-4]
+				// Ysum5 = (72/147)*y[i-5]
+				// Ysum6 = (-10/147)*y[i-6]
 				yk[stepTmp] = MathNum.AlgebraicEquationEval.evalAlgebraicZero(strFun, y, yk[stepTmp-1]);
 				
 				// StepTmp +1

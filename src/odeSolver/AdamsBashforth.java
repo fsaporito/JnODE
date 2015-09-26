@@ -3,6 +3,7 @@ package odeSolver;
 import java.util.Hashtable;
 
 import Exceptions.WrongCalculationException;
+import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 import MathToken.MathTokenSymbol;
 import Parser.MathEvaluator;
@@ -295,7 +296,7 @@ public class AdamsBashforth extends LinearMultistep {
 											
 			}
 			
-		} catch (WrongCalculationException | WrongInputException e) {
+		} catch (WrongCalculationException | WrongExpressionException | WrongInputException e) {
 			
 			e.printStackTrace();
 			

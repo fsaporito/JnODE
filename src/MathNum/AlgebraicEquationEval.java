@@ -52,9 +52,9 @@ public class AlgebraicEquationEval {
 	}
 	
 	
-	public static double evalAlgebraicZero (MathExpr mathExpr, MathTokenSymbol symbol, double seed) throws WrongInputException, WrongCalculationException {
+	public static double evalAlgebraicZero (MathExpr mathExpr, MathTokenSymbol symbol, double seed) throws WrongInputException, WrongCalculationException, WrongExpressionException {
 		
-		return MathNum.Roots.secant(mathExpr, symbol, seed);
+		return MathNum.Roots.newton(mathExpr, symbol, seed);
 		
 	}
 	

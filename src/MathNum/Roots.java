@@ -20,8 +20,9 @@ public class Roots {
 	 * @return The Root
 	 * @throws WrongInputException
 	 * @throws WrongCalculationException
+	 * @throws WrongExpressionException 
 	 */
-	public static double bisection (MathExpr func, MathTokenSymbol y, double a, double b) throws WrongInputException, WrongCalculationException {
+	public static double bisection (MathExpr func, MathTokenSymbol y, double a, double b) throws WrongInputException, WrongCalculationException, WrongExpressionException {
 		
 		if (a == b) {
 			
@@ -100,8 +101,9 @@ public class Roots {
 	 * @return The Root
 	 * @throws WrongInputException
 	 * @throws WrongCalculationException
+	 * @throws WrongExpressionException 
 	 */
-	public static double secant (MathExpr func, MathTokenSymbol y, double y0) throws WrongInputException, WrongCalculationException {
+	public static double secant (MathExpr func, MathTokenSymbol y, double y0) throws WrongInputException, WrongCalculationException, WrongExpressionException {
 		
 		// Y0 = f(y0)
 		double Y0 = func.evalSymbolic(y0).getOperandDouble();
