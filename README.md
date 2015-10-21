@@ -43,12 +43,12 @@ Regarding the interaction with the user, a simple GUI will be provided to input 
 
 Bibliography (Tentative, will be expanded along the way)
 
-Coddington, Ordinary Differential Equations
-Giusti, Analisi Matematica 2
-Griffiths, Higham, Numerical Methods for Ordinary Differential Equations
-Hairer, Noersett, Wanner, Solving Ordinary Differential Equations Volume 1 Nonstiff Problems
-Jackiewicz, General Linear Methods For Ordinary Differential Equations
-Quarteroni, Sacco, Saleri, Matematica Numerica
+ - Coddington, Ordinary Differential Equations
+ - Giusti, Analisi Matematica 2
+ - Griffiths, Higham, Numerical Methods for Ordinary Differential Equations
+ - Hairer, Noersett, Wanner, Solving Ordinary Differential Equations Volume 1 Nonstiff Problems
+ - Jackiewicz, General Linear Methods For Ordinary Differential Equations
+ - Quarteroni, Sacco, Saleri, Matematica Numerica
 
 
 
