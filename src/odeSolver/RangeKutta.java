@@ -6,8 +6,8 @@ import Exceptions.WrongCalculationException;
 import Exceptions.WrongExpressionException;
 import Exceptions.WrongInputException;
 import MathExpr.MathExpr;
-import MathNum.AlgebraicEquationEval;
 import MathToken.MathTokenSymbol;
+import MatrixMathExpr.ArrayExprC;
 import Parser.MathEvaluator;
 
 public abstract class RangeKutta extends GLM {
@@ -212,55 +212,32 @@ public abstract class RangeKutta extends GLM {
 				if (this.getMethodType().equals("implicit")) {
 							
 					// y[n+1] = y[n] + h*SUM (i=1..r) {b[i]*k[i]}
-					// k[i] = f (t[n] + c[i]*h, y[n] + h*(a[i][0]*k[0] + a[i][1]*k[1] + .. + a[i][i-1]*k[s]) 
+					// k[i] = f (t[n] + c[i]*h, y[n] + h*(a[i][0]*k[0] + a[i][1]*k[1] + .. + a[i][i-1]*k[r]) 
+					// k[i] = f(Z[i], y[n] + h*SUM (j=0...r) {A[i]*k[j])
 					// It Has To Be Solved Numerically In Respect To k = k[i] 
+					
+					// Z[i] Definition
+					double[] Z = new double[r];
+					
+					// Function Array With The Evaluation t -> Z[i]
+					MathExpr[] funcEl = new MathExpr[this.r];
+					ArrayExprC funcArrC = null;
 					
 					for (int i = 1; i < stepNumber; i++) {
 						
-						ka_sum = 0;
+						// KB Sum Initialization
 						kb_sum = 0;
-						String strFun = "";
-						MathExpr exprFun = null;
 						
-						hashTab.clear();
-						hashTab.put(t, timeInterval[i-1]);
-						hashTab.put(y, yk[i-1]);
-			
-						// k0 = f (tn+h, yn+h*k0) = f (t[n+1], y[n] + h*k0) -> Euler Implicit
-						MathTokenSymbol kSymbol = (new MathTokenSymbol ("k"));
-						strFun = kSymbol +  	
-						        " - (" + 
-						        diff.getStep() +
-						        " * (" + 
-						        diff.getFunc().substituteSymbol(t, timeInterval[stepNumber]).substituteSymbol(y, ""+yk[stepNumber-1] + " + " + step + " * " + "k" ) + 
-						        "))"; 				
-				
-						k[0] = AlgebraicEquationEval.evalAlgebraicZero(strFun, kSymbol, yk[i-1]);
-						
-						kb_sum = this.b[0]*k[0];
-						
-						
-						// Ks Loop Calculator
-						// Starts from 1 because c[0] = 0
-						for (int j = 1; j < this.r; j++) {
+						// Z[j] = t[i-1] + c[j]
+						for (int j = 1; j < r; j++) {
 							
-							hashTab.clear();
+							Z[j] = timeInterval[i-1] + this.c[j];
 							
-							// tn + h*c[j]
-							hashTab.put(t, timeInterval[i-1] + step*this.c[j]);
-							
-							// ka_sum Computing
-							for (int l = 0; l <= j; l++) {
-								
-								ka_sum += this.A[j][l]*k[l]; 
-							
-							}						
-							
-							hashTab.put(y, yk[i-1] + step*ka_sum);
-							
-							k[j] = (new MathEvaluator (this.diff.getFunc(), hashTab)).getResult().getOperandDouble();
+							funcEl[j] = this.diff.getFunc().evalSymbolic(Z[j], t);
 						
 						}
+						
+						funcArrC = new ArrayExprC (funcEl, this.r);
 						
 						// kb_sum Computing
 						for (int j = 1; j < r; j++) {
@@ -270,10 +247,10 @@ public abstract class RangeKutta extends GLM {
 						}
 						
 						// Yk[i] Computation
-						yk[i] = yk[i-1] + step*kb_sum;	
+						yk[i] = yk[i-1] + step*kb_sum;
 						
 					}
-				
+					
 				}
 							
 			}			
