@@ -132,6 +132,8 @@ public class JnODE implements ActionListener {
 
 		this.buildGui();
 
+		this.defaultValues();
+
 	}
 
 	/**
@@ -208,19 +210,6 @@ public class JnODE implements ActionListener {
 
 		}
 
-		if (DEFAULT_VALUES) {
-
-			this.textFieldInput.setText("y");
-			this.textFieldStep.setText("0.1");
-			this.textFieldy0.setText("1");
-			this.textFieldT0.setText("0");
-			this.textFieldTmax.setText("1");
-			this.textFieldS.setText("2");
-			this.textFieldExact.setText("e^t");
-
-
-		}
-
 	}
 
 
@@ -287,6 +276,41 @@ public class JnODE implements ActionListener {
 	}
 
 
+	/**
+	 *
+	 */
+	public void defaultValues () {
+
+		if (DEFAULT_VALUES) {
+
+			//this.textFieldInput.setText("y");
+			this.textFieldInput.setText("-15*y");
+			this.textFieldStep.setText("0.1");
+			this.textFieldy0.setText("1");
+			this.textFieldT0.setText("0");
+			this.textFieldTmax.setText("1");
+			this.textFieldS.setText("2");
+
+			// Exact
+			this.hasExactButton.doClick();
+			this.textFieldExact.setText("e^(-15*t)");
+
+			// Method Choice
+			this.methodBox.setSelectedItem("RK4");
+			
+			// Compute
+			this.compButton.doClick();
+
+		}
+
+
+	}
+
+
+	/**
+	 * Action Performed Method
+	 * Implement the button's listeners
+	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 
@@ -618,6 +642,12 @@ public class JnODE implements ActionListener {
 	}
 
 
+	/**
+	 * Plot the approximated solution of the differential equation
+	 * (and, if possible, the exact solution)
+	 *
+	 * @param diff Differential Equation Object Containing The Solution
+	 */
 	private void plot (DifferentialEquation diff) {
 
 		this.labelError.setText("Plotting ...");
